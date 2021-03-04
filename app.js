@@ -1,41 +1,88 @@
 var createError = require('http-errors');
+const http = require('http');
 var express = require('express');
+const co = require('co');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+var logger = require('chpr-logger');
+const { configure } = require('./config/express');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var mongoose = require('mongoose');
+const url ="mongodb://localhost:27017/PiDev";
 
-var app = express();
+let app;
+let server;
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+mongoose.connect(url,{useNewUrlParser: true});
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+const mongo=mongoose.connection;
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+mongo.on('connected',()=>{
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+    console.log('initialisation');
+
+
+});
+mongo.on('open',()=>{
+    console.log('connexion etablie');
+
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+mongo.on('error',(err)=>{
+    console.log(err);
 });
 
-module.exports = app;
+/**
+ * Start the web app.
+ *
+ * @returns {Promise} when app end to start
+ */
+async function start() {
+    if (app) {
+        return app;
+    }
+    logger.info('Express web server creation');
+    app = configure(express());
+    server = http.createServer(app);
+    await server.listen(app.get('port'));
+
+    logger.info(
+        {
+            port: server.address().port,
+            environment: process.env.NODE_ENV,
+        },
+        '✔ Server running',
+    );
+
+    return app;
+}
+
+/**
+ * Stop the web app.
+ *
+ * @returns {Promise} when app end to start
+ */
+async function stop() {
+    if (server) {
+        await server.close();
+        server = null;
+        app = null;
+    }
+    await mongoose.disconnect();
+    return Promise.resolve();
+}
+
+if (!module.parent) {
+    co(start);
+}
+
+module.exports = {
+    start,
+    stop,
+    get server() {
+        return server;
+    },
+    get app() {
+        return app;
+    },
+};

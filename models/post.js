@@ -11,6 +11,10 @@ const postSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  event_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Event",
+  },
 });
 
 const joiPostSchema = Joi.object({
@@ -22,6 +26,7 @@ const joiPostSchema = Joi.object({
   ),
   image_url: Joi.string().required(),
   user_id: Joi.objectId().required(),
+  event_id: Joi.objectId().required(),
 });
 
 const joiPostSchemaForUpdate = Joi.object({

@@ -33,7 +33,18 @@ function collection (){
     return mongoose.model('Claim', claimSchema);
 }
 
+async function insertOne(claim){
+    const claim_validate = _validateSchema(claim);
+    if(claim_validate){
+        const claim_returned = await collection().insertMany(claim_validate);
+        return claim_returned ;
+    }
+    return null;
+}
+
+
+
 
 module.exports= {
-
+    insertOne
 };

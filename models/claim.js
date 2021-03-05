@@ -111,10 +111,27 @@ async function validateClaim(id, claim) {
     console.log("Error", error.message);
   }
 }
-
+async function findOne(id) {
+  try {
+    const claim_returned = await collection().findById(id);
+    return claim_returned;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+async function findAll() {
+  try {
+    const claim_returned = await collection().find();
+    return claim_returned;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 module.exports = {
   insertOne,
   deleteone,
   updateUser,
   validateClaim,
+  findOne,
+  findAll,
 };

@@ -33,10 +33,26 @@ async function validateClaim(req, res) {
   }
   return res.status(400).end();
 }
+async function findOne(req, res) {
+  const claim = await claims.findOne(req.params.id);
+  if (claim) {
+    return res.status(200).send(claim);
+  }
+  return res.status(400).end();
+}
+async function findAll(req, res) {
+  const claim = await claims.findAll();
+  if (claim) {
+    return res.status(200).send(claim);
+  }
+  return res.status(400).end();
+}
 
 module.exports = {
   addClaim,
   deleteClaim,
   validateClaim,
   updateclaimByUser,
+  findOne,
+  findAll,
 };

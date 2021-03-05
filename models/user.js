@@ -48,9 +48,16 @@ function collection (){
     return mongoose.model('User', userSchema);
 }
 
-
+async function insertOne(user){
+    const user_validate = _validateSchema(user);
+    if(user_validate){
+        const user_returned = await collection().insertMany(user_validate);
+        return user_returned ;
+    }
+    return null;
+}
 
 
 module.exports= {
-  
+    insertOne
 };

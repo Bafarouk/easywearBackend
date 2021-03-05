@@ -50,7 +50,13 @@ const findAll = async () => {
   }
 };
 
+const findPostbyId = async (id) => {
+  const post = await collection().findById(id);
+  return post;
+};
+
 module.exports = {
   insertOne,
   findAll,
+  findPostbyId,
 };

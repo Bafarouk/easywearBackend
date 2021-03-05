@@ -32,8 +32,8 @@ function collection() {
   return mongoose.model("Post", postSchema);
 }
 
-const insertOne = async (event) => {
-  const post_validate = _validateSchema(event);
+const insertOne = async (post) => {
+  const post_validate = _validateSchema(post);
   if (post_validate) {
     const post_returned = await collection().insertMany(post_validate);
     return post_returned;
@@ -41,6 +41,16 @@ const insertOne = async (event) => {
   return null;
 };
 
+const findAll = async () => {
+  try {
+    const posts = await collection().find({}).sort("description");
+    return posts;
+  } catch (error) {
+    console.log("Error", error.message);
+  }
+};
+
 module.exports = {
   insertOne,
+  findAll,
 };

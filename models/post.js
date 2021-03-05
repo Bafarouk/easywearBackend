@@ -24,8 +24,17 @@ const joiPostSchema = Joi.object({
   user_id: Joi.objectId().required(),
 });
 
+const joiPostSchemaForUpdate = Joi.object({
+  description: Joi.string().required(),
+  image_url: Joi.string().required(),
+});
+
 function _validateSchema(post1) {
   return Joi.attempt(post1, joiPostSchema);
+}
+
+function _validateSchemaForUpdate(post2) {
+  return Joi.attempt(post2, joiPostSchemaForUpdate);
 }
 
 function collection() {
@@ -51,12 +60,37 @@ const findAll = async () => {
 };
 
 const findPostbyId = async (id) => {
-  const post = await collection().findById(id);
-  return post;
+  try {
+    const post = await collection().findById(id);
+    return post;
+  } catch (error) {
+    console.log("Error", error.message);
+  }
+};
+
+const updatePost = async (id, post) => {
+  try {
+    const post_validate = _validateSchemaForUpdate(post);
+    if (post_validate) {
+      const postToUpdate = await collection().findById(id);
+      if (!postToUpdate) {
+        console.log("Post wasnt found");
+        return null;
+      }
+      postToUpdate.description = post.description;
+      postToUpdate.image_url = post.image_url;
+      postToUpdate.save();
+      return postToUpdate;
+    }
+    return null;
+  } catch (error) {
+    console.log("Error", error.message);
+  }
 };
 
 module.exports = {
   insertOne,
   findAll,
   findPostbyId,
+  updatePost,
 };

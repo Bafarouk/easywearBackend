@@ -34,17 +34,34 @@ function collection (){
 }
 
 async function insertOne(claim){
-    const claim_validate = _validateSchema(claim);
-    if(claim_validate){
-        const claim_returned = await collection().insertMany(claim_validate);
-        return claim_returned ;
+    try {
+        const claim_validate = _validateSchema(claim);
+        if(claim_validate){
+            const claim_returned = await collection().insertMany(claim_validate);
+            return claim_returned ;
+        }
+        return null;
+    } catch (error) {
+        console.log(error.message);
     }
-    return null;
+
+}
+async function deleteone(id){
+  
+    try {
+        const claim_returned = await collection().findByIdAndDelete(id);
+        return claim_returned ;
+    } catch (error) {
+        console.log(error.message);
+    }
+        
+ 
 }
 
 
 
 
 module.exports= {
-    insertOne
+    insertOne,
+    deleteone
 };

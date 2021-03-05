@@ -88,9 +88,22 @@ const updatePost = async (id, post) => {
   }
 };
 
+const deletePost = async (id) => {
+  try {
+    const post = await collection().findByIdAndRemove(id);
+    if (post) {
+      return post;
+    }
+    return null;
+  } catch (error) {
+    console.log("Error", error.message);
+  }
+};
+
 module.exports = {
   insertOne,
   findAll,
   findPostbyId,
   updatePost,
+  deletePost,
 };

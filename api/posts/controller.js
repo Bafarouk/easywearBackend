@@ -45,9 +45,22 @@ const putPost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  try {
+    const post = await posts.deletePost(req.params.id);
+    if (post) {
+      return res.status(200).send(post);
+    }
+    return res.status(404).send("Post wasnt found").end();
+  } catch (error) {
+    res.send(error.message).end();
+  }
+};
+
 module.exports = {
   addPost,
   getPosts,
   getPostById,
   putPost,
+  deletePost,
 };

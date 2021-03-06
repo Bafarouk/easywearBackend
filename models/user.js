@@ -19,7 +19,6 @@ const userSchema = mongoose.Schema({
     weight: String,
     gender: String,
     role: String,
-
 });
 
 const joiUserSchema = Joi.object({

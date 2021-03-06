@@ -10,7 +10,8 @@ exports.create = (req, res) => {
   
   const { error } = Joi.validate(req.body, schemaEvent);
   if (error!=null) {
-    res.status(400).send({ message: "verify Content!" });
+    res.status(400).send(error);
+    //res.send(error);
     return;
   }
 
@@ -100,7 +101,7 @@ exports.create = (req, res) => {
   exports.delete = (req, res) => {
       const id = req.params.id;
   
-      Reaction1.findByIdAndRemove(id)
+      Reaction.findByIdAndRemove(id)
         .then(data => {
           if (!data) {
             res.status(404).send({
@@ -121,7 +122,7 @@ exports.create = (req, res) => {
   
   
   exports.deleteAll = (req, res) => {
-      Reaction1.deleteMany({})
+      Reaction.deleteMany({})
       .then(data => {
         res.send({
           message: `${data.deletedCount} Reaction1s were deleted successfully!`

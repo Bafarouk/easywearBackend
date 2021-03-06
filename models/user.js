@@ -47,9 +47,56 @@ function collection (){
     return mongoose.model('User', userSchema);
 }
 
+async function insertOne(user){
+    const user_validate = _validateSchema(user);
+    if(user_validate){
+        const user_returned = await collection().insertMany(user_validate);
+        return user_returned ;
+    }
+    return null;
+}
 
+async function findUserbyEmail(email) {
+    const user = await collection().findOne({email:email});
+    return user ;
+  };
+
+async function findUserbyId(id) {
+    const user = await collection().findOne({_id:id});
+    return user ;
+  };
+
+async function deleteUser(email){
+
+    const user = await collection().find({email:email});
+    if(user) {
+        await collection().deleteOne({id: user._id});
+        return true;
+    }
+    return false;
+
+}
+
+async function updateUser(id, data) {
+    const result = await collection().updateOne(
+        { _id: id },
+        { $set: data },
+    );
+    return result;
+}
+
+async function findAllUser(){
+    const users = await collection().find({});
+    //console.log(users)
+    return users;
+}
 
 
 module.exports= {
-  
+    insertOne,
+    findUserbyEmail,
+    deleteUser,
+    updateUser,
+    findUserbyId,
+    findAllUser
 };

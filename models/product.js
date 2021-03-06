@@ -15,7 +15,8 @@ const productSchema = mongoose.Schema({
     type_livraison: String,
     url: String, 
 });
-
+module.exports = mongoose.model("products", productSchema);
+/*
 const joiProductSchema = Joi.object({
     _id: Joi.objectId(),
     productName: Joi.string().required(),
@@ -45,3 +46,4 @@ function collection (){
 
 module.exports= {
 };
+*/

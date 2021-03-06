@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const Joi = require('../lib/joi');
-const dateComment = require('../lib/date');
-const { ObjectId } = require('mongoose').Types;
+//const Joi = require('../lib/joi');
+//const dateComment = require('../lib/date');
+//const { ObjectId } = require('mongoose').Types;
 
 const commentSchema = mongoose.Schema({
     description: String,
@@ -16,7 +16,8 @@ const commentSchema = mongoose.Schema({
     }
     
 });
-
+module.exports = mongoose.model("comments", commentSchema);
+/*
 const joiCommentSchema = Joi.object({
     _id: Joi.objectId(),
     description: Joi.string().required(),
@@ -34,8 +35,7 @@ function collection (){
 }
 
 
-
-
 module.exports= {
   
 };
+*/

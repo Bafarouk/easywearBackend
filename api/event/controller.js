@@ -26,8 +26,36 @@ async function deleteEvent(req,res){
     return res.status(404).send();
 }
 
+async function getAllEvents(req,res){
+    const event = await events.find();
+    if(event){
+        return res.status(200).send();
+    }
+    return res.status(404).send();
+}
+
+async function getEventById(req,res){
+    const event = await events.findOneById();
+    if(event){
+        return res.status(200).send();
+    }
+    return res.status(404).send();
+}
+
+async function getEventByEventName(req,res){
+    const event = await events.findOneByEventName();
+    if(event){
+        return res.status(200).send();
+    }
+    return res.status(404).send();
+}
+
+
 
 module.exports = {
     addEvent,
-    deleteEvent
+    deleteEvent,
+    getAllEvents,
+    getEventById,
+    getEventByEventName
 }; 

@@ -81,7 +81,6 @@ async function updateOne(event_name, updatedFields) {
 module.exports= {
     insertOne,
     find,
-    findOne,
     findOneByEventName,
     findOneById,
     updateOne,

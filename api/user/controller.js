@@ -71,10 +71,22 @@ async function login(req,res){
 }
 
 
+async function profile(req,res){
 
+    var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+    let user= await users.findUserbyEmail(decoded.email);
+    if (user) {
+        res.json(user)
+      } else {
+        res.send('User does not exist')
+      }
+
+
+}
 
 
 module.exports = {
     addUser,
-    login
+    login,
+    profile
 }; 

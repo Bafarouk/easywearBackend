@@ -50,6 +50,15 @@ async function getEventByEventName(req,res){
     return res.status(404).send();
 }
 
+async function updateEvent(req,res){
+    let event_name = req.body.event_name;
+    const event = await events.updateEvent(event_name, req.body);
+    if(event){
+        return res.status(200).send();
+    }
+    return res.status(404).send();
+}
+
 
 
 module.exports = {
@@ -57,5 +66,6 @@ module.exports = {
     deleteEvent,
     getAllEvents,
     getEventById,
-    getEventByEventName
+    getEventByEventName,
+    updateEvent
 }; 

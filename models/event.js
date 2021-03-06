@@ -19,8 +19,8 @@ const eventSchema = mongoose.Schema({
 const joiEventSchema = Joi.object({
     _id: Joi.objectId(),
     eventName: Joi.string().required(),
-    date_debut: Joi.date().default( () => dateEvent.getDate(), 'date of creation'),
-    date_fin: Joi.date().default( () => dateEvent.getDate(), 'date of creation'),
+    date_debut: Joi.date(),
+    date_fin: Joi.date(),
     image_url: Joi.string().required(),
     user_id: Joi.objectId().required()
 });
@@ -34,16 +34,55 @@ function collection (){
 }
 
 async function insertOne(event){
-    const event_validate = _validateSchema(event);
-    if(event_validate){
-        const event_returned = await collection().insertMany(event_validate);
+   // const event_validate = _validateSchema(event);
+   // if(event_validate){
+        const event_returned = await collection().insertMany(event);
         return event_returned ;
+    //}
+   // return null;
+}
+
+async function deleteOneByEventName(event_name){
+    const event_delete = await collection().find({eventName:event_name});
+    if(event_delete) {
+        await collection().deleteOne({id: event_name._id});
+        return true;
     }
-    return null;
+    return false;
+}
+
+
+async function find(query = {}, projections = {}) {
+    return await collection().find(query, projections);
+}
+
+
+async function findOneById(eventId, projections = {}) {
+    return await collection().findOne({ _id: eventId }, projections);
+}
+
+
+async function findOneByEventName(event_name, projections = {}) {
+    return await collection().findOne({ eventName: event_name }, projections);
+}
+
+async function updateOne(event_name, updatedFields) {
+    const result = await collection().updateOne(
+        { eventName: event_name },
+        { $set: updatedFields },
+    );
+    return result;
 }
 
 
 
+
+
 module.exports= {
-    insertOne
+    insertOne,
+    find,
+    findOneByEventName,
+    findOneById,
+    updateOne,
+    deleteOneByEventName
 };

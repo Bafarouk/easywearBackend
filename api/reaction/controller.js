@@ -1,5 +1,5 @@
 
-const Reaction1 = require('../../models/reaction');
+const Reaction = require('../../models/reaction');
 const schemaEvent = require('./schema').ValidatorSchemaOfBody ;
 const Joi = require('../../lib/joi');
 //const db = require("../../models");
@@ -16,15 +16,15 @@ exports.create = (req, res) => {
 
   
     
-    const Reaction1 = new Reaction1({
+    const reaction1 = new Reaction({
       date_creation:Date.now(),
       description: req.body.description,
       User_id: req.body.user,
       Post_id: req.body.post
     });
   
-    Reaction1
-      .save(Reaction1)
+    reaction1 
+      .save(reaction1)
       .then(data => {
         res.send(data);
       })
@@ -41,23 +41,23 @@ exports.create = (req, res) => {
       const title = req.query.title;
       var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
     
-      Reaction1.find(condition)
-        .then(data => {
-          res.send(data);
-        })
-        .catch(err => {
-          res.status(500).send({
-            message:
-              err.message || "Some error occurred while retrieving Reaction1."
-          });
+      Reaction.find(condition)
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while retrieving Reaction."
         });
+      });
   };
   
   
   exports.findOne = (req, res) => {
       const id = req.params.id;
   
-      Reaction1.findById(id)
+      Reaction.findById(id)
         .then(data => {
           if (!data)
             res.status(404).send({ message: "Not found Reaction1 with id " + id });
@@ -81,7 +81,7 @@ exports.create = (req, res) => {
       
         const id = req.params.id;
       
-        Reaction1.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+        Reaction.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
           .then(data => {
             if (!data) {
               res.status(404).send({

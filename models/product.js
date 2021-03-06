@@ -15,7 +15,7 @@ const productSchema = mongoose.Schema({
     type_livraison: String,
     url: String, 
 });
-module.exports = mongoose.model("comment", productSchema);
+module.exports = mongoose.model("products", productSchema);
 /*
 const joiProductSchema = Joi.object({
     _id: Joi.objectId(),

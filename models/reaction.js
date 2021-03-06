@@ -16,7 +16,7 @@ const reaction = mongoose.Schema({
     }
     
 });
-module.exports = mongoose.model("reaction", reaction);
+module.exports = mongoose.model("reactions", reaction);
 /*
 const joiReactionSchema = Joi.object({
     _id: Joi.objectId(),
@@ -36,7 +36,8 @@ function collection (){
 
 
 
-*/
+
 module.exports= {
   
 };
+*/

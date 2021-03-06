@@ -45,7 +45,7 @@ async function start() {
     app = configure(express());
     server = http.createServer(app);
 
-   // require("./api/product/index")(app);
+    require("./api/product/index")(app);
     require("./api/comment/index")(app);
     require("./api/reaction/index")(app);
     

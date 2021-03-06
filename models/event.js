@@ -34,12 +34,12 @@ function collection (){
 }
 
 async function insertOne(event){
-    const event_validate = _validateSchema(event);
-    if(event_validate){
-        const event_returned = await collection().insertMany(event_validate);
+   // const event_validate = _validateSchema(event);
+   // if(event_validate){
+        const event_returned = await collection().insertMany(event);
         return event_returned ;
-    }
-    return null;
+    //}
+   // return null;
 }
 
 async function deleteOneByEventName(event_name){

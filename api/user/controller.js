@@ -125,11 +125,28 @@ async function updateUser(req,res){
 
 }
 
+async function getAllUsers(req,res){
+
+    var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)    
+    console.log("getAll")
+    if(decoded.role==='admin'){
+        let listUsers= await users.findAllUser();
+        if(listUsers){
+        res.json(listUsers);
+        }else{
+            res.send('list empty')
+        }
+    }else{
+        res.send('user not deleted you need admin privilege')
+    }
+}
+
 
 module.exports = {
     addUser,
     login,
     profile,
     deleteUser,
-    updateUser
+    updateUser,
+    getAllUsers
 }; 

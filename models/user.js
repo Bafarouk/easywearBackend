@@ -86,11 +86,18 @@ async function updateUser(id, data) {
     return result;
 }
 
+async function findAllUser(){
+    const users = await collection().find({});
+    //console.log(users)
+    return users;
+}
+
 
 module.exports= {
     insertOne,
     findUserbyEmail,
     deleteUser,
     updateUser,
-    findUserbyId
+    findUserbyId,
+    findAllUser
 };

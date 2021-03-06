@@ -19,8 +19,8 @@ const eventSchema = mongoose.Schema({
 const joiEventSchema = Joi.object({
     _id: Joi.objectId(),
     eventName: Joi.string().required(),
-    date_debut: Joi.date().default( () => dateEvent.getDate(), 'date of creation'),
-    date_fin: Joi.date().default( () => dateEvent.getDate(), 'date of creation'),
+    date_debut: Joi.date(),
+    date_fin: Joi.date(),
     image_url: Joi.string().required(),
     user_id: Joi.objectId().required()
 });
@@ -62,8 +62,8 @@ async function findOneById(eventId, projections = {}) {
 }
 
 
-async function findOneByEventName(eventName, projections = {}) {
-    return await collection().findOne({ eventName: eventName }, projections);
+async function findOneByEventName(event_name, projections = {}) {
+    return await collection().findOne({ eventName: event_name }, projections);
 }
 
 async function updateOne(event_name, updatedFields) {

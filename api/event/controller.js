@@ -29,32 +29,32 @@ async function deleteEvent(req,res){
 async function getAllEvents(req,res){
     const event = await events.find();
     if(event){
-        return res.status(200).send();
+        return res.status(200).send(event);
     }
     return res.status(404).send();
 }
 
 async function getEventById(req,res){
-    const event = await events.findOneById();
+    const event = await events.findOneById(req.query.eventId);
     if(event){
-        return res.status(200).send();
+        return res.status(200).send(event);
     }
     return res.status(404).send();
 }
 
 async function getEventByEventName(req,res){
-    const event = await events.findOneByEventName();
+    const event = await events.findOneByEventName(req.query.event_name);
     if(event){
-        return res.status(200).send();
+        return res.status(200).send(event);
     }
     return res.status(404).send();
 }
 
 async function updateEvent(req,res){
-    let event_name = req.body.event_name;
-    const event = await events.updateEvent(event_name, req.body);
+    let event_name = req.query.event_name;
+    const event = await events.updateOne(event_name, req.body);
     if(event){
-        return res.status(200).send();
+        return res.status(200).send(event);
     }
     return res.status(404).send();
 }

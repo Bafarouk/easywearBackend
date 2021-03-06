@@ -13,7 +13,7 @@ const url ="mongodb://localhost:27017/PiDev";
 let app;
 let server;
 
-mongoose.connect(url,{useNewUrlParser: true});
+mongoose.connect(url,{useNewUrlParser: true , useUnifiedTopology: true});
 
 const mongo=mongoose.connection;
 

@@ -44,6 +44,11 @@ async function start() {
     logger.info('Express web server creation');
     app = configure(express());
     server = http.createServer(app);
+
+   // require("./api/product/index")(app);
+    require("./api/comment/index")(app);
+    require("./api/reaction/index")(app);
+    
     await server.listen(app.get('port'));
 
     logger.info(

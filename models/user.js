@@ -62,8 +62,35 @@ async function findUserbyEmail(email) {
     return user ;
   };
 
+async function findUserbyId(id) {
+    const user = await collection().findOne({_id:id});
+    return user ;
+  };
+
+async function deleteUser(email){
+
+    const user = await collection().find({email:email});
+    if(user) {
+        await collection().deleteOne({id: user._id});
+        return true;
+    }
+    return false;
+
+}
+
+async function updateUser(id, data) {
+    const result = await collection().updateOne(
+        { _id: id },
+        { $set: data },
+    );
+    return result;
+}
+
 
 module.exports= {
     insertOne,
-    findUserbyEmail
+    findUserbyEmail,
+    deleteUser,
+    updateUser,
+    findUserbyId
 };

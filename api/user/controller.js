@@ -23,7 +23,7 @@ async function addUser(req,res){
         bcrypt.hash(req.body.password, 10, (err, hash) => {
             userr.password = hash
             
-              users.insertOne(userr).then(user =>{
+              users.insertOne(userr).then(() =>{
 
                 res.json({ status: userr.email + ' Registered!' })
 
@@ -51,7 +51,8 @@ async function login(req,res){
                 _id: user1._id,
                 first_name: user1.first_name,
                 last_name: user1.last_name,
-                email: user1.email
+                email: user1.email,
+                role: user1.role
               }
               let token = jwt.sign(payload, process.env.SECRET_KEY, {
                 expiresIn: 1440
@@ -84,9 +85,51 @@ async function profile(req,res){
 
 }
 
+async function deleteUser(req,res){
+
+    var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+    console.log('delete')
+    let user= await users.findUserbyEmail(req.body.email);
+    if (user) {
+        if(decoded.role==='admin'){
+            users.deleteUser(decoded.email)
+            res.send('user deleted successfully')
+        }else{
+            res.send('user not deleted you need admin privilege')
+        }
+        
+      } else {
+        res.send('User does not exist')
+      }
+
+}
+
+async function updateUser(req,res){
+
+    var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+    let user= await users.findUserbyEmail(req.body.email);
+    if (user) {
+        if(decoded.role==='admin' || user._id==decoded._id){
+            console.log("update")
+            console.log(user)
+            let user1= await users.updateUser(user._id,req.body);
+            console.log(user1)
+            res.json(user1)
+        }else{
+            res.send('user not deleted you need admin privilege')
+        }
+
+    } else {
+        res.send('User does not exist')
+      }
+
+}
+
 
 module.exports = {
     addUser,
     login,
-    profile
+    profile,
+    deleteUser,
+    updateUser
 }; 

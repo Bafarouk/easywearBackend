@@ -21,7 +21,7 @@ exports.create = (req, res) => {
       Post_id: req.body.post
     });
   
-    Comment
+    comment
       .save(comment)
       .then(data => {
         res.send(data);

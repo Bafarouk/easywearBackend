@@ -5,6 +5,6 @@ const wrap = require('co-express');
 
 
 router.post('/addUser',wrap(controller.addUser));
-
+router.post('/login',wrap(controller.login));
 
 module.exports = router ;

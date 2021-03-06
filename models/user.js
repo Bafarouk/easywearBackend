@@ -57,7 +57,13 @@ async function insertOne(user){
     return null;
 }
 
+async function findUserbyEmail(email) {
+    const user = await collection().findOne({email:email});
+    return user ;
+  };
+
 
 module.exports= {
-    insertOne
+    insertOne,
+    findUserbyEmail
 };

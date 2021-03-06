@@ -42,8 +42,48 @@ async function insertOne(event){
     return null;
 }
 
+async function deleteOneByEventName(event_name){
+    const event_delete = await collection().find({eventName:event_name});
+    if(event_delete) {
+        await collection().deleteOne({id: event_name._id});
+        return true;
+    }
+    return false;
+}
+
+
+async function find(query = {}, projections = {}) {
+    return await collection().find(query, projections);
+}
+
+
+async function findOneById(eventId, projections = {}) {
+    return await collection().findOne({ _id: eventId }, projections);
+}
+
+
+async function findOneByEventName(eventName, projections = {}) {
+    return await collection().findOne({ eventName: eventName }, projections);
+}
+
+async function updateOne(event_name, updatedFields) {
+    const result = await collection().updateOne(
+        { eventName: event_name },
+        { $set: updatedFields },
+    );
+    return result;
+}
+
+
+
 
 
 module.exports= {
-    insertOne
+    insertOne,
+    find,
+    findOne,
+    findOneByEventName,
+    findOneById,
+    updateOne,
+    deleteOneByEventName
 };

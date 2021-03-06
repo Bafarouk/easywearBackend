@@ -17,10 +17,17 @@ async function addEvent(req,res){
     return res.status(400).end();
 }
 
-
-
+async function deleteEvent(req,res){
+    let event_name = req.query.event_name;
+    const event = await events.deleteOneByEventName(event_name);
+    if(event){
+        return res.status(200).send();
+    }
+    return res.status(404).send();
+}
 
 
 module.exports = {
-    addEvent
+    addEvent,
+    deleteEvent
 }; 

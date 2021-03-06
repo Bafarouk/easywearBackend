@@ -4,11 +4,10 @@ const controller = require('./controller');
 const wrap = require('co-express');
 
 
-router.post('/',wrap());
-router.delete('/',wrap());
-router.get('/',wrap());
-router.get('/',wrap());
-router.get('/',wrap());
-router.put('/',wrap());
+router.post('/addGallerie',wrap(controller.addGallerie));
+router.delete('/deleteGallerie',wrap(controller.deleteGallerie));
+router.get('/getGallerieById',wrap(controller.getGallerieById));
+router.get('/getAllGalleries',wrap(controller.getAllGalleries));
+router.put('/updateGallerie',wrap(controller.updateGallerie));
 
 module.exports = router ;

@@ -52,7 +52,6 @@ async function updateGallerie(req,res){
 }
 
 
-
 module.exports = {
     addGallerie,
     deleteGallerie,

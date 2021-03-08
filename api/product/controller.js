@@ -8,7 +8,7 @@ exports.create = async (req, res) => {
   try {
     const { error } = Joi.validate(req.body, schemaEvent);
     //Add Delete All.
-
+    await Product.deleteMany();
     const data = await amazonData();
     for (const item of data) {
       const product = new Product({
@@ -24,8 +24,9 @@ exports.create = async (req, res) => {
         type_livraison: item.type_livraison,
         url: item.url,
       });
+      const prod = await Product.insertMany(product);
 
-      product
+      /*product
         .save(product)
         .then((data) => {
           res.send(data);
@@ -36,15 +37,21 @@ exports.create = async (req, res) => {
               err.message || "Some error occurred while creating the product.",
           });
         });
+        */
     }
+    return res.status(200).send("data inserted");
   } catch (error) {
-    res.status(404).send(error.message);
+    res.status(404).send(error.message).end();
   }
 };
 exports.getData = async (req, res) => {
-  const data = await amazonData();
-  console.log(data);
-  return res.status(200).send(data);
+  try {
+    const data = await amazonData();
+    if (data) return res.status(200).send(data);
+    else return res.status(404).send("cannot retreieve data").end();
+  } catch (error) {
+    res.status(404).send(error.message).end();
+  }
 };
 exports.findAll = (req, res) => {
   const title = req.query.title;

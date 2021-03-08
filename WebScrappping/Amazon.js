@@ -7,7 +7,7 @@ let amazonData = async () => {
   const response = await axios.get(url);
   data = [];
   const $ = cheerio.load(response.data);
-  console.log($);
+  // console.log($);
   $(
     "div.sg-col-4-of-12" &&
       ".s-result-item " &&

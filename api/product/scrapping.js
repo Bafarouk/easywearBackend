@@ -1,14 +1,17 @@
-
-const { amazonData } = require("../../WebScrappping/Amazon");
+const { amazonData } = require("../../WebScrappping/Amazon"); // fichier elli fih web scrapping
 const controller= require("./controller");
-const Product = require('../../models/product');
 
+//lien de test (Post ,body vide ) :http://localhost:3100/api/product/scrapping 
 
 exports.scrap = async (req, res) =>{ 
+var tot =0;
+const amazonD = await amazonData(); // esm function
+const nbr= await controller.saveall(amazonD); //sauvgard f base
 
-const amazonD = await amazonData();
-const nbr= await controller.saveall(amazonD);
-res.status(200).send(` ${nbr} product was added succefully`);
+
+
+tot = nbr ; // + nbr1 + ......
+res.status(200).send(` ${tot} product was added succefully`);
 return
 
 

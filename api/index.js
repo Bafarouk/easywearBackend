@@ -5,6 +5,7 @@ const userRoute = require('./user');
 const postRoute = require("./posts");
 const gallerieRoute = require("./gallerie");
 const claimRoute = require("./claim");
+const participationRoute = require("./participant")
 
 
 module.exports = (app)=> {
@@ -15,6 +16,7 @@ module.exports = (app)=> {
     router.use("/gallerie", gallerieRoute);
     router.use("/claim", claimRoute);
     router.use("/post", postRoute);
+    router.use("/participant", participationRoute);
 
   app.use("/api", router);
 };

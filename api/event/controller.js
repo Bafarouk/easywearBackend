@@ -14,7 +14,7 @@ async function addEvent(req,res){
     if(event){
         return res.status(200).send(event);
     }
-    return res.status(400).end();
+    return res.status(404).end();
 }
 
 async function deleteEvent(req,res){

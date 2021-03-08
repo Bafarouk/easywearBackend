@@ -13,7 +13,7 @@ const url ="mongodb://localhost:27017/PiDev";
 let app;
 let server;
 
-mongoose.connect(url,{useNewUrlParser: true});
+mongoose.connect(url,{useNewUrlParser: true , useUnifiedTopology: true});
 
 const mongo=mongoose.connection;
 
@@ -44,6 +44,11 @@ async function start() {
     logger.info('Express web server creation');
     app = configure(express());
     server = http.createServer(app);
+
+    require("./api/product/index")(app);
+    require("./api/comment/index")(app);
+    require("./api/reaction/index")(app);
+    
     await server.listen(app.get('port'));
 
     logger.info(

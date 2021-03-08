@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-const Joi = require('../lib/joi');
-const dateReaction = require('../lib/date');
-const { ObjectId } = require('mongoose').Types;
+//const Joi = require('../lib/joi');
+//const dateReaction = require('../lib/date');
+//const { ObjectId } = require('mongoose').Types;
 
-const reactionSchema = mongoose.Schema({
-    type: String,
+const reaction = mongoose.Schema({
+    reactiontype: String,
     date_creation: Date,
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -16,7 +16,8 @@ const reactionSchema = mongoose.Schema({
     }
     
 });
-
+module.exports = mongoose.model("reactions", reaction);
+/*
 const joiReactionSchema = Joi.object({
     _id: Joi.objectId(),
     type: Joi.string().required(),
@@ -39,3 +40,4 @@ function collection (){
 module.exports= {
   
 };
+*/

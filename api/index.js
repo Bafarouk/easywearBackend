@@ -1,16 +1,17 @@
-const { Router } = require('express');
+const { Router } = require("express");
 
-const eventRoute = require('./event');
-const claimRoute = require('./claim');
+const eventRoute = require("./event");
+const claimRoute = require("./claim");
 
+const userRoute = require("./user");
+const postRoute = require("./posts");
 
+module.exports = (app) => {
+  const router = Router();
+  router.use("/event", eventRoute);
+  router.use("/claim", claimRoute);
+  router.use("/user", userRoute);
+  router.use("/post", postRoute);
 
-
-module.exports = (app)=> {
-
-    const router = Router();
-    router.use('/event', eventRoute);
-    router.use('/claim', claimRoute);
-
-    app.use('/api', router);
+  app.use("/api", router);
 };

@@ -8,14 +8,15 @@ const productSchema = mongoose.Schema({
     productPrice: Number,
     productSize: String,
     productCategorie: String,
-    productAge: String,
+    productAge: Number,
     productGender: String,
     productBrand: String,
     image_url: String,
     type_livraison: String,
     url: String, 
 });
-
+module.exports = mongoose.model("products", productSchema);
+/*
 const joiProductSchema = Joi.object({
     _id: Joi.objectId(),
     productName: Joi.string().required(),
@@ -45,3 +46,4 @@ function collection (){
 
 module.exports= {
 };
+*/

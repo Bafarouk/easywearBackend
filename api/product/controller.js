@@ -62,7 +62,7 @@ exports.create = (req, res) => {
   exports.findOne = (req, res) => {
       const id = req.params.id;
   
-      product.findById(id)
+      Product.findById(id)
         .then(data => {
           if (!data)
             res.status(404).send({ message: "Not found product with id " + id });
@@ -85,7 +85,7 @@ exports.create = (req, res) => {
       
         const id = req.params.id;
       
-        product.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+        Product.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
           .then(data => {
             if (!data) {
               res.status(404).send({
@@ -104,7 +104,7 @@ exports.create = (req, res) => {
   exports.delete = (req, res) => {
       const id = req.params.id;
   
-      product.findByIdAndRemove(id)
+      Product.findByIdAndRemove(id)
         .then(data => {
           if (!data) {
             res.status(404).send({
@@ -125,7 +125,7 @@ exports.create = (req, res) => {
   
   
   exports.deleteAll = (req, res) => {
-      product.deleteMany({})
+    Product.deleteMany({})
       .then(data => {
         res.send({
           message: `${data.deletedCount} products were deleted successfully!`

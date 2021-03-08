@@ -9,6 +9,7 @@
     "bcrypt": "^5.0.1",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.5",
     "chpr-logger": "^3.2.0",
     "co": "4.6.0",
     "co-express": "1.2.2",
@@ -31,7 +32,9 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "request-promise": "^4.2.4",
+    "puppeteer": "^8.0.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
     "request-promise-core": "^1.1.2",
     "twig": "^1.15.4"
   }

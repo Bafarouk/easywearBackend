@@ -41,6 +41,22 @@ exports.create = (req, res) => {
       });
   };
   
+  exports.createweb = (req, res,product) => {
+    // const { error } = Joi.validate(req.body, schemaEvent);
+    
+   
+     product
+       .save(product)
+       .then(data => {
+         res.send(data);
+       })
+       .catch(err => {
+         res.status(500).send({
+           message:
+             err.message || "Some error occurred while creating the product."
+         });
+       });
+   };
   
   exports.findAll = (req, res) => {
       const title = req.query.title;

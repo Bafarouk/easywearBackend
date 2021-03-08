@@ -1,19 +1,20 @@
-const mongoose = require('mongoose');
-const Joi = require('../lib/joi');
-const { ObjectId } = require('mongoose').Types;
+const mongoose = require("mongoose");
+const Joi = require("../lib/joi");
+
+const { ObjectId } = require("mongoose").Types;
 
 const productSchema = mongoose.Schema({
-    productName: String,
-    productDescription: String,
-    productPrice: Number,
-    productSize: String,
-    productCategorie: String,
-    productAge: Number,
-    productGender: String,
-    productBrand: String,
-    image_url: String,
-    type_livraison: String,
-    url: String, 
+  productName: String,
+  productDescription: String,
+  productPrice: String,
+  productSize: String,
+  productCategorie: String,
+  productAge: Number,
+  productGender: String,
+  productBrand: String,
+  image_url: String,
+  type_livraison: String,
+  url: String,
 });
 module.exports = mongoose.model("products", productSchema);
 /*

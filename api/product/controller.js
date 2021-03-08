@@ -41,7 +41,28 @@ exports.create = (req, res) => {
       });
   };
   
-  
+
+  exports.saveall = async (data) =>{ 
+  var count=0;
+    for (const element of data){
+      const { error } = Joi.validate(element, schemaEvent);
+    if (error==null) {
+     
+   
+
+        const product = new Product(element);
+        await product.save(product)
+        count=count+1;
+        }
+    
+      } 
+    return count;
+    };
+
+
+
+
+
   exports.findAll = (req, res) => {
       const title = req.query.title;
       var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};

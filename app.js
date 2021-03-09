@@ -8,6 +8,8 @@ var logger = require('chpr-logger');
 const { configure } = require('./config/express');
 
 var mongoose = require('mongoose');
+ require('mongoose-paginate-v2');
+
 const url ="mongodb://localhost:27017/PiDev";
 
 let app;

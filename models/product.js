@@ -5,7 +5,7 @@ const { ObjectId } = require('mongoose').Types;
 const productSchema = mongoose.Schema({
     productName: String,
     productDescription: String,
-    productPrice: Number,
+    productPrice: String,
     productSize: String,
     productCategorie: String,
     productAge: Number,

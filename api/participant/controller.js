@@ -16,3 +16,8 @@ async function addParticipant(req,res){
     }
     return res.status(404).end();
 }
+
+
+module.exports = {
+    addParticipant
+}

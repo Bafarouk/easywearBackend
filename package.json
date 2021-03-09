@@ -13,7 +13,7 @@
     "cheerio": "^1.0.0-rc.5",
     "chpr-logger": "^3.2.0",
     "co": "4.6.0",
-    "co-express": "1.2.2",
+    "co-express": "^2.0.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",

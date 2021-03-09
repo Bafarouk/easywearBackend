@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Joi = require('../lib/joi');
 const { ObjectId } = require('mongoose').Types;
-
+const mongoosePaginate = require('mongoose-paginate-v2');
 const productSchema = mongoose.Schema({
     productName: String,
     productDescription: String,
@@ -15,6 +15,13 @@ const productSchema = mongoose.Schema({
     type_livraison: String,
     url: String, 
 });
+productSchema.method("toJSON", function() {
+    const { __v, _id, ...object } = this.toObject();
+    object.id = _id;
+    return object;
+  });
+  productSchema.plugin(mongoosePaginate);
+
 module.exports = mongoose.model("products", productSchema);
 /*
 const joiProductSchema = Joi.object({

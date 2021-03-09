@@ -5,8 +5,11 @@ const controller= require("./controller");
 
 exports.scrap = async (req, res) =>{ 
 var tot =0;
+
+
 const amazonD = await amazonData(); // esm function
 const nbr= await controller.saveall(amazonD); //sauvgard f base
+
 
 
 

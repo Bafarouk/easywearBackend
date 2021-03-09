@@ -18,5 +18,5 @@ module.exports = (app)=> {
     router.use("/post", postRoute);
     router.use("/participant", participationRoute);
 
-  app.use("/api", router);
+    app.use('/api', router);
 };

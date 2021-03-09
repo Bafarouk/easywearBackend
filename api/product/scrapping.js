@@ -6,11 +6,14 @@ const { pullData } = require('../../WebScrappping/pullAndBear');
 
 exports.scrap = async (req, res) =>{ 
 var tot =0;
+
+
 const amazonD = await amazonData(); // esm function
 const nbr= await controller.saveall(amazonD); //sauvgard f base
 
 const pullD = await pullData(); // esm function
 //const nbr1= await controller.saveall(pullD); //sauvgard f base
+
 
 
 

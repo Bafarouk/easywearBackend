@@ -3,7 +3,6 @@ const { Router } = require("express");
 
 const eventRoute = require("./event");
 const claimRoute = require("./claim");
-
 const userRoute = require("./user");
 const postRoute = require("./posts");
 
@@ -13,15 +12,6 @@ module.exports = (app) => {
   router.use("/claim", claimRoute);
   router.use("/user", userRoute);
   router.use("/post", postRoute);
-
-
-
-module.exports = (app)=> {
-
-    const router = Router();
-    router.use('/event', eventRoute);
-    router.use('/user', userRoute);
-    router.use("/post", postRoute);
 
     app.use('/api', router);
 };

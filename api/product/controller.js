@@ -4,6 +4,13 @@ const schemaEvent = require('./schema').ValidatorSchemaOfBody ;
 const Joi = require('../../lib/joi');
 
 
+const getPagination = (page, size) => {
+  const limit = size ? +size : 3;
+  const offset = page ? page * limit : 0;
+
+  return { limit, offset };
+};
+
 
 exports.create = (req, res) => {
     const { error } = Joi.validate(req.body, schemaEvent);
@@ -41,14 +48,43 @@ exports.create = (req, res) => {
       });
   };
   
-  
-  exports.findAll = (req, res) => {
-      const title = req.query.title;
-      var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+
+  exports.saveall = async (data) =>{ 
+  var count=0;
+    for (const element of data){
+      const { error } = Joi.validate(element, schemaEvent);
+    if (error==null) {
+     
+   
+
+        const product = new Product(element);
+        await product.save(product)
+        count=count+1;
+        }
     
-      Product.find(condition)
-        .then(data => {
-          res.send(data);
+      } 
+    return count;
+    };
+
+
+
+
+
+  exports.findAll = (req, res) => {
+    const { page, size, title } = req.query
+      var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+   
+      const { limit, offset } = getPagination(page, size);
+
+     
+      Product.paginate(condition, { offset, limit })
+        .then((data) => {
+          res.send({
+            totalItems: data.totalDocs,
+            products: data.docs,
+            totalPages: data.totalPages,
+            currentPage: data.page - 1,
+          });
         })
         .catch(err => {
           res.status(500).send({

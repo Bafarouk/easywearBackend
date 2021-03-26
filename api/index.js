@@ -1,8 +1,8 @@
 const { Router } = require("express");
 
+
 const eventRoute = require("./event");
 const claimRoute = require("./claim");
-
 const userRoute = require("./user");
 const postRoute = require("./posts");
 
@@ -13,5 +13,5 @@ module.exports = (app) => {
   router.use("/user", userRoute);
   router.use("/post", postRoute);
 
-  app.use("/api", router);
+    app.use('/api', router);
 };

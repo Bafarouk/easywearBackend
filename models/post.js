@@ -4,6 +4,7 @@ const datePost = require("../lib/date");
 const { ObjectId } = require("mongoose").Types;
 
 const postSchema = mongoose.Schema({
+  title: String,
   description: String,
   date_creation: Date,
   image_url: String,
@@ -19,6 +20,7 @@ const postSchema = mongoose.Schema({
 
 const joiPostSchema = Joi.object({
   _id: Joi.objectId(),
+  title: Joi.string().required(),
   description: Joi.string().required(),
   date_creation: Joi.date().default(
     () => datePost.getDate(),
@@ -30,6 +32,7 @@ const joiPostSchema = Joi.object({
 });
 
 const joiPostSchemaForUpdate = Joi.object({
+  title: Joi.string().required(),
   description: Joi.string().required(),
   image_url: Joi.string().required(),
 });
@@ -82,6 +85,7 @@ const updatePost = async (id, post) => {
         console.log("Post wasnt found");
         return null;
       }
+      postToUpdate.title = post.title;
       postToUpdate.description = post.description;
       postToUpdate.image_url = post.image_url;
       postToUpdate.save();

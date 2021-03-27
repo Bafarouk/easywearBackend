@@ -91,7 +91,6 @@ const updatePost = async (id, post) => {
       const postToUpdate = await collection().findById(id);
 
       //Upload Image to Cloudinary
-      console.log(postToUpdate);
       await cloudinary.uploader.destroy(postToUpdate.cloudinaryImageId);
       const uploadResponse = await cloudinary.uploader.upload(post.image_url);
       //End Upload Image

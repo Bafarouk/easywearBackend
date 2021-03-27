@@ -9,6 +9,7 @@ const postSchema = mongoose.Schema({
   description: String,
   date_creation: Date,
   image_url: String,
+  cloudinaryImageId: String,
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -28,6 +29,7 @@ const joiPostSchema = Joi.object({
     "date of creation"
   ),
   image_url: Joi.string().required(),
+  cloudinaryImageId: Joi.string(),
   user_id: Joi.objectId().required(),
   event_id: Joi.objectId().required(),
 });
@@ -52,8 +54,10 @@ function collection() {
 
 const insertOne = async (post) => {
   const uploadResponse = await cloudinary.uploader.upload(post.image_url);
-  if (!uploadResponse) return;
+  if (!uploadResponse) post.image_url = "https://picsum.photos/200";
   post.image_url = uploadResponse.url;
+  post.cloudinaryImageId = uploadResponse.public_id;
+  console.log(uploadResponse.public_id);
   const post_validate = _validateSchema(post);
   if (post_validate) {
     const post_returned = await collection().insertMany(post_validate);
@@ -85,13 +89,23 @@ const updatePost = async (id, post) => {
     const post_validate = _validateSchemaForUpdate(post);
     if (post_validate) {
       const postToUpdate = await collection().findById(id);
+
+      //Upload Image to Cloudinary
+      console.log(postToUpdate);
+      await cloudinary.uploader.destroy(postToUpdate.cloudinaryImageId);
+      const uploadResponse = await cloudinary.uploader.upload(post.image_url);
+      //End Upload Image
+
+      if (!uploadResponse) postToUpdate.image_url = "https://picsum.photos/200";
+
       if (!postToUpdate) {
         console.log("Post wasnt found");
         return null;
       }
       postToUpdate.title = post.title;
       postToUpdate.description = post.description;
-      postToUpdate.image_url = post.image_url;
+      postToUpdate.image_url = uploadResponse.url;
+      postToUpdate.cloudinaryImageId = uploadResponse.public_id;
       postToUpdate.save();
       return postToUpdate;
     }
@@ -104,6 +118,7 @@ const updatePost = async (id, post) => {
 const deletePost = async (id) => {
   try {
     const post = await collection().findByIdAndRemove(id);
+    await cloudinary.uploader.destroy(post.cloudinaryImageId);
     if (post) {
       return post;
     }

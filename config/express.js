@@ -14,8 +14,8 @@ var cors = require("cors");
  */
 function configure(app) {
   /** Body parser */
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
+  app.use(express.urlencoded({ limit: "50mb", extended: true }));
+  app.use(express.json({ limit: "50mb" }));
 
   /** prevent CORS failures for this test */
   app.use(cors());

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Joi = require("../lib/joi");
 const datePost = require("../lib/date");
 const { ObjectId } = require("mongoose").Types;
+const { cloudinary } = require("./../utils/cloudinary");
 
 const postSchema = mongoose.Schema({
   title: String,
@@ -50,6 +51,9 @@ function collection() {
 }
 
 const insertOne = async (post) => {
+  const uploadResponse = await cloudinary.uploader.upload(post.image_url);
+  if (!uploadResponse) return;
+  post.image_url = uploadResponse.url;
   const post_validate = _validateSchema(post);
   if (post_validate) {
     const post_returned = await collection().insertMany(post_validate);

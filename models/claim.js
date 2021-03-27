@@ -98,7 +98,6 @@ async function validateClaim(id, claim) {
     if (claim_validate) {
       const claimToUpdate = await collection().findById(id);
       if (!claimToUpdate) {
-        console.log("Post wasnt found");
         return null;
       }
 
@@ -127,6 +126,16 @@ async function findAll() {
     console.log(error.message);
   }
 }
+
+async function findAllByType(type) {
+  try {
+    const claim_returned = await collection().find({ type: type });
+    return claim_returned;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 module.exports = {
   insertOne,
   deleteone,
@@ -134,4 +143,5 @@ module.exports = {
   validateClaim,
   findOne,
   findAll,
+  findAllByType,
 };

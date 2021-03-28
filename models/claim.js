@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Joi = require("../lib/joi");
 const dateClaim = require("../lib/date");
 const { ObjectId } = require("mongoose").Types;
+const { cloudinary } = require("./../utils/cloudinary");
 
 const claimSchema = mongoose.Schema({
   type: String,
@@ -9,6 +10,7 @@ const claimSchema = mongoose.Schema({
   date_claim: Date,
   image_url: String,
   state: Number,
+  cloudinaryImageId: String,
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -23,6 +25,7 @@ const joiClaimSchema = Joi.object({
   image_url: Joi.string().required(),
   state: Joi.number().positive().required(),
   user_id: Joi.objectId().required(),
+  cloudinaryImageId: Joi.string(),
 });
 
 function _validateSchema(claim1) {
@@ -53,6 +56,10 @@ function collection() {
 
 async function insertOne(claim) {
   try {
+    const uploadResponse = await cloudinary.uploader.upload(claim.image_url);
+    if (!uploadResponse) claim.image_url = "https://picsum.photos/200";
+    claim.image_url = uploadResponse.url;
+    claim.cloudinaryImageId = uploadResponse.public_id;
     const claim_validate = _validateSchema(claim);
     if (claim_validate) {
       const claim_returned = await collection().insertMany(claim_validate);

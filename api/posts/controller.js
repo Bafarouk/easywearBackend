@@ -21,6 +21,19 @@ const getPosts = async (req, res) => {
   }
 };
 
+const getUserPosts = async (req, res) => {
+  try {
+    const postsToReturn = await posts.findAllPostsByUserId(req.params.userid);
+    if (postsToReturn) {
+      return res.status(200).send(postsToReturn);
+    }
+
+    return res.status(404).send("Posts werent found").end();
+  } catch (error) {
+    res.send(error.message);
+  }
+};
+
 const getPostById = async (req, res) => {
   try {
     const post = await posts.findPostbyId(req.params.id);
@@ -63,4 +76,5 @@ module.exports = {
   getPostById,
   putPost,
   deletePost,
+  getUserPosts,
 };

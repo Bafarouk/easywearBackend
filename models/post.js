@@ -75,6 +75,17 @@ const findAll = async () => {
   }
 };
 
+const findAllPostsByUserId = async (userID) => {
+  try {
+    const userPosts = await collection()
+      .find({ user_id: userID })
+      .sort("description");
+    return userPosts;
+  } catch (error) {
+    console.log("Error", error.message);
+  }
+};
+
 const findPostbyId = async (id) => {
   try {
     const post = await collection().findById(id);
@@ -133,4 +144,5 @@ module.exports = {
   findPostbyId,
   updatePost,
   deletePost,
+  findAllPostsByUserId,
 };

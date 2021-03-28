@@ -30,10 +30,9 @@ function _validateSchema(claim1) {
 }
 
 const joiClaimSchemaupdateUser = Joi.object({
-  type: Joi.string().required(),
   description: Joi.string().required(),
 
-  image_url: Joi.string().required(),
+  state: Joi.number().required(),
 });
 
 function _validateSchemaUpdateUser(claim1) {
@@ -82,8 +81,8 @@ async function updateUser(id, claim) {
         return null;
       }
       claimToUpdate.description = claim.description;
-      claimToUpdate.image_url = claim.image_url;
-      claimToUpdate.type = claim.type;
+
+      claimToUpdate.state = claim.state;
       claimToUpdate.save();
       return claimToUpdate;
     }
@@ -98,7 +97,6 @@ async function validateClaim(id, claim) {
     if (claim_validate) {
       const claimToUpdate = await collection().findById(id);
       if (!claimToUpdate) {
-        console.log("Post wasnt found");
         return null;
       }
 
@@ -127,6 +125,16 @@ async function findAll() {
     console.log(error.message);
   }
 }
+
+async function findAllByType(type) {
+  try {
+    const claim_returned = await collection().find({ type: type });
+    return claim_returned;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 module.exports = {
   insertOne,
   deleteone,
@@ -134,4 +142,5 @@ module.exports = {
   validateClaim,
   findOne,
   findAll,
+  findAllByType,
 };

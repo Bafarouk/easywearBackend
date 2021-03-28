@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 const Joi = require('../lib/joi');
 const { ObjectId } = require('mongoose').Types;
@@ -14,6 +15,7 @@ const productSchema = mongoose.Schema({
     image_url: String,
     type_livraison: String,
     url: String, 
+
 });
 productSchema.method("toJSON", function() {
     const { __v, _id, ...object } = this.toObject();

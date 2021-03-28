@@ -30,10 +30,9 @@ function _validateSchema(claim1) {
 }
 
 const joiClaimSchemaupdateUser = Joi.object({
-  type: Joi.string().required(),
   description: Joi.string().required(),
 
-  image_url: Joi.string().required(),
+  state: Joi.number().required(),
 });
 
 function _validateSchemaUpdateUser(claim1) {
@@ -82,8 +81,8 @@ async function updateUser(id, claim) {
         return null;
       }
       claimToUpdate.description = claim.description;
-      claimToUpdate.image_url = claim.image_url;
-      claimToUpdate.type = claim.type;
+
+      claimToUpdate.state = claim.state;
       claimToUpdate.save();
       return claimToUpdate;
     }

@@ -58,6 +58,7 @@ const insertOne = async (post) => {
   post.image_url = uploadResponse.url;
   post.cloudinaryImageId = uploadResponse.public_id;
   console.log(uploadResponse.public_id);
+
   const post_validate = _validateSchema(post);
   if (post_validate) {
     const post_returned = await collection().insertMany(post_validate);

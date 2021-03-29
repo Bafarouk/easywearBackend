@@ -1,6 +1,7 @@
-const Joi = require('../../lib/joi');
+const Joi = require("../../lib/joi");
 
 const ValidatorSchemaOfBody = Joi.object({
+
     _id: Joi.objectId(),
     productName: Joi.string().required(),
     productDescription: Joi.string()  ,
@@ -16,7 +17,6 @@ const ValidatorSchemaOfBody = Joi.object({
 
 });
 
-
 module.exports = {
-    ValidatorSchemaOfBody,
+  ValidatorSchemaOfBody,
 };

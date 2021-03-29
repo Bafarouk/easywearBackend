@@ -1,4 +1,3 @@
-
 const Product = require('../../models/product');
 const schemaEvent = require('./schema').ValidatorSchemaOfBody ;
 const Joi = require('../../lib/joi');
@@ -174,5 +173,3 @@ exports.create = (req, res) => {
         });
       });
   };
-  
- 

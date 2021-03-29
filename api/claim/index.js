@@ -8,5 +8,6 @@ router.post("/addClaim", wrap(controller.addClaim));
 router.delete("/delete/:id", wrap(controller.deleteClaim));
 router.put("/validateClaim/:id", wrap(controller.validateClaim));
 router.put("/UpdateClaim/:id", wrap(controller.updateclaimByUser));
+router.get("/findAllByType", wrap(controller.findAllByType));
 
 module.exports = router;

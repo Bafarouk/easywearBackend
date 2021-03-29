@@ -126,7 +126,8 @@ async function findOne(id) {
 }
 async function findAll() {
   try {
-    const claim_returned = await collection().find();
+    const sort = { state: 1 };
+    const claim_returned = await collection().find().sort(sort);
     return claim_returned;
   } catch (error) {
     console.log(error.message);

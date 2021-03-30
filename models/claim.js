@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Joi = require("../lib/joi");
 const dateClaim = require("../lib/date");
 const { ObjectId } = require("mongoose").Types;
+const { cloudinary } = require("./../utils/cloudinary");
 
 const claimSchema = mongoose.Schema({
   type: String,
@@ -9,6 +10,11 @@ const claimSchema = mongoose.Schema({
   date_claim: Date,
   image_url: String,
   state: Number,
+  cloudinaryImageId: String,
+  claim_url: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Post",
+  },
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -23,6 +29,8 @@ const joiClaimSchema = Joi.object({
   image_url: Joi.string().required(),
   state: Joi.number().positive().required(),
   user_id: Joi.objectId().required(),
+  cloudinaryImageId: Joi.string(),
+  claim_url: Joi.objectId(),
 });
 
 function _validateSchema(claim1) {
@@ -53,6 +61,10 @@ function collection() {
 
 async function insertOne(claim) {
   try {
+    const uploadResponse = await cloudinary.uploader.upload(claim.image_url);
+    if (!uploadResponse) claim.image_url = "https://picsum.photos/200";
+    claim.image_url = uploadResponse.url;
+    claim.cloudinaryImageId = uploadResponse.public_id;
     const claim_validate = _validateSchema(claim);
     if (claim_validate) {
       const claim_returned = await collection().insertMany(claim_validate);
@@ -119,7 +131,9 @@ async function findOne(id) {
 }
 async function findAll() {
   try {
-    const claim_returned = await collection().find();
+    const sort = { state: 1 };
+
+    const claim_returned = await collection().find().sort(sort);
     return claim_returned;
   } catch (error) {
     console.log(error.message);
@@ -134,6 +148,15 @@ async function findAllByType(type) {
     console.log(error.message);
   }
 }
+async function findAllByClaimUrl(claim_url) {
+  try {
+    const claim_returned = await collection().find({ claim_url: claim_url });
+
+    return claim_returned;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 module.exports = {
   insertOne,
@@ -143,4 +166,5 @@ module.exports = {
   findOne,
   findAll,
   findAllByType,
+  findAllByClaimUrl,
 };

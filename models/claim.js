@@ -11,6 +11,10 @@ const claimSchema = mongoose.Schema({
   image_url: String,
   state: Number,
   cloudinaryImageId: String,
+  claim_url: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Post",
+  },
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -26,6 +30,7 @@ const joiClaimSchema = Joi.object({
   state: Joi.number().positive().required(),
   user_id: Joi.objectId().required(),
   cloudinaryImageId: Joi.string(),
+  claim_url: Joi.objectId(),
 });
 
 function _validateSchema(claim1) {
@@ -127,6 +132,7 @@ async function findOne(id) {
 async function findAll() {
   try {
     const sort = { state: 1 };
+
     const claim_returned = await collection().find().sort(sort);
     return claim_returned;
   } catch (error) {
@@ -142,6 +148,15 @@ async function findAllByType(type) {
     console.log(error.message);
   }
 }
+async function findAllByClaimUrl(claim_url) {
+  try {
+    const claim_returned = await collection().find({ claim_url: claim_url });
+
+    return claim_returned;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
 
 module.exports = {
   insertOne,
@@ -151,4 +166,5 @@ module.exports = {
   findOne,
   findAll,
   findAllByType,
+  findAllByClaimUrl,
 };

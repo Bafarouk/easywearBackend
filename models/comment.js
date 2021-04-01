@@ -1,20 +1,19 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 //const Joi = require('../lib/joi');
 //const dateComment = require('../lib/date');
 //const { ObjectId } = require('mongoose').Types;
 
 const commentSchema = mongoose.Schema({
-    description: String,
-    date_creation: Date,
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User" 
-        },
-    post_id: { 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Post"
-    }
-    
+  description: String,
+  date_creation: Date,
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  post_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Post",
+  },
 });
 module.exports = mongoose.model("comments", commentSchema);
 /*

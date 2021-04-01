@@ -54,7 +54,6 @@ function collection() {
 
 const insertOne = async (post) => {
   const uploadResponse = await cloudinary.uploader.upload(post.image_url);
-  if (!uploadResponse) post.image_url = "https://picsum.photos/200";
   post.image_url = uploadResponse.url;
   post.cloudinaryImageId = uploadResponse.public_id;
   console.log(uploadResponse.public_id);
@@ -71,7 +70,7 @@ const findAll = async () => {
     const posts = await collection().find({}).sort("description");
     return posts;
   } catch (error) {
-    console.log("Error", error.message);
+    console.error("Error", error.message);
   }
 };
 

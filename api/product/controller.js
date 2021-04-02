@@ -1,8 +1,14 @@
-
 const Product = require('../../models/product');
 const schemaEvent = require('./schema').ValidatorSchemaOfBody ;
 const Joi = require('../../lib/joi');
 
+
+const getPagination = (page, size) => {
+  const limit = size ? +size : 3;
+  const offset = page ? page * limit : 0;
+
+  return { limit, offset };
+};
 
 
 exports.create = (req, res) => {
@@ -41,30 +47,43 @@ exports.create = (req, res) => {
       });
   };
   
-  exports.createweb = async (req, res,product) => {
-    // const { error } = Joi.validate(req.body, schemaEvent);
-    
+
+  exports.saveall = async (data) =>{ 
+  var count=0;
+    for (const element of data){
+      const { error } = Joi.validate(element, schemaEvent);
+    if (error==null) {
+     
    
-     product
-       .save(product)
-       .then(data => {
-         res.send(data);
-       })
-       .catch(err => {
-         res.status(500).send({
-           message:
-             err.message || "Some error occurred while creating the product."
-         });
-       });
-   };
-  
-  exports.findAll = (req, res) => {
-      const title = req.query.title;
-      var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+
+        const product = new Product(element);
+        await product.save(product)
+        count=count+1;
+        }
     
-      Product.find(condition)
-        .then(data => {
-          res.send(data);
+      } 
+    return count;
+    };
+
+
+
+
+
+  exports.findAll = (req, res) => {
+    const { page, size, title } = req.query
+      var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+   
+      const { limit, offset } = getPagination(page, size);
+
+     
+      Product.paginate(condition, { offset, limit })
+        .then((data) => {
+          res.send({
+            totalItems: data.totalDocs,
+            products: data.docs,
+            totalPages: data.totalPages,
+            currentPage: data.page - 1,
+          });
         })
         .catch(err => {
           res.status(500).send({
@@ -78,7 +97,7 @@ exports.create = (req, res) => {
   exports.findOne = (req, res) => {
       const id = req.params.id;
   
-      product.findById(id)
+      Product.findById(id)
         .then(data => {
           if (!data)
             res.status(404).send({ message: "Not found product with id " + id });
@@ -101,7 +120,7 @@ exports.create = (req, res) => {
       
         const id = req.params.id;
       
-        product.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+        Product.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
           .then(data => {
             if (!data) {
               res.status(404).send({
@@ -120,7 +139,7 @@ exports.create = (req, res) => {
   exports.delete = (req, res) => {
       const id = req.params.id;
   
-      product.findByIdAndRemove(id)
+      Product.findByIdAndRemove(id)
         .then(data => {
           if (!data) {
             res.status(404).send({
@@ -141,7 +160,7 @@ exports.create = (req, res) => {
   
   
   exports.deleteAll = (req, res) => {
-      product.deleteMany({})
+    Product.deleteMany({})
       .then(data => {
         res.send({
           message: `${data.deletedCount} products were deleted successfully!`
@@ -154,5 +173,3 @@ exports.create = (req, res) => {
         });
       });
   };
-  
- 

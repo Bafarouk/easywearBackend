@@ -1,20 +1,20 @@
 const { Router } = require("express");
 
-const eventRoute = require('./event');
-const userRoute = require('./user');
-const webScrappingRoute = require('./webscrapping');
-
+const eventRoute = require("./event");
+const claimRoute = require("./claim");
+const userRoute = require("./user");
 const postRoute = require("./posts");
+const paymentRoute = require("./payment");
+const webScrappingRoute = require("./webscrapping");
 
+module.exports = (app) => {
+  const router = Router();
+  router.use("/event", eventRoute);
+  router.use("/claim", claimRoute);
+  router.use("/user", userRoute);
+  router.use("/post", postRoute);
+  router.use("/payment", paymentRoute);
+  router.use("/webscrapping", webScrappingRoute);
 
-
-module.exports = (app)=> {
-
-    const router = Router();
-    router.use('/event', eventRoute);
-    router.use('/user', userRoute);
-    router.use('/webscrapping', webScrappingRoute);
-    router.use("/post", postRoute);
-
-    app.use('/api', router);
+  app.use("/api", router);
 };

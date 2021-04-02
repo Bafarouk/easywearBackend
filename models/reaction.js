@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 //const { ObjectId } = require('mongoose').Types;
 
 const reaction = mongoose.Schema({
-    type: String,
+    reactiontype: String,
     date_creation: Date,
     user_id: {
         type: mongoose.Schema.Types.ObjectId,

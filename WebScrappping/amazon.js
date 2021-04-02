@@ -38,7 +38,7 @@ let amazonData = async () => {
         .children("span.a-price")
         .children("span.a-offscreen")
         .text(),
-      url: "https://www.amazon.fr" + $(elem)
+      url: $(elem)
         .find("a.a-link-normal" && ".s-no-outline")
         .attr("href"),
       image_url: $(elem).find("img.s-image").attr("src"),

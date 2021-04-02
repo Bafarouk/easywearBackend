@@ -1,5 +1,6 @@
 const { Router } = require("express");
 
+
 const eventRoute = require("./event");
 const claimRoute = require("./claim");
 const userRoute = require("./user");
@@ -17,4 +18,5 @@ module.exports = (app) => {
   router.use("/webscrapping", webScrappingRoute);
 
   app.use("/api", router);
+
 };

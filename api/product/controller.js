@@ -41,7 +41,7 @@ exports.create = (req, res) => {
       });
   };
   
-  exports.createweb = (req, res,product) => {
+  exports.createweb = async (req, res,product) => {
     // const { error } = Joi.validate(req.body, schemaEvent);
     
    

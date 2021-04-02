@@ -29,7 +29,7 @@ async function getUrl(req,res){
           console.log(index)
         var singleHref = $(singleLink).attr('href');
         console.log(singleHref);
-        if(singleHref.includes("zara.com") && index < 1){
+        if(singleHref.includes("zara.com") && index < 10){
             product.url=singleHref;
             puppeteer
             .launch()
@@ -91,7 +91,26 @@ async function getUrl(req,res){
                     product.productSize=size.toString();
                     
                 console.log(product)
-                productController.createweb(req,res,product)
+
+                product
+                .save(product)
+                .then(data => {
+                  //res.send(data);
+                })
+                .catch(err => {
+                  res.status(500).send({
+                    message:
+                      err.message || "Some error occurred while creating the product."
+                  });
+                });
+
+
+
+                /*
+                 productController.createweb(req,res,product)
+                .catch(err =>{
+                        console.log(err)
+                })*/
                 //console.log(img)
                 //console.log(size.toString())
 
@@ -109,7 +128,7 @@ async function getUrl(req,res){
           const link = $(el).attr('href');
           console.log(link)
       });*/
-     // res.send('ok')
+      res.send('ok')
     })
     .catch(function(err){
       //handle error

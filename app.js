@@ -1,37 +1,34 @@
-var createError = require('http-errors');
-const http = require('http');
-var express = require('express');
-const co = require('co');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('chpr-logger');
-const { configure } = require('./config/express');
+var createError = require("http-errors");
+const http = require("http");
+var express = require("express");
+const co = require("co");
+var path = require("path");
+var cookieParser = require("cookie-parser");
+var logger = require("chpr-logger");
+const { configure } = require("./config/express");
 
-var mongoose = require('mongoose');
- require('mongoose-paginate-v2');
+var mongoose = require("mongoose");
+require("mongoose-paginate-v2");
 
-const url ="mongodb://localhost:27017/PiDev";
+const url = "mongodb://localhost:27017/PiDev";
+
 
 let app;
 let server;
 
-mongoose.connect(url,{useNewUrlParser: true , useUnifiedTopology: true});
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const mongo=mongoose.connection;
+const mongo = mongoose.connection;
 
-mongo.on('connected',()=>{
-
-    console.log('initialisation');
-
-
+mongo.on("connected", () => {
+  console.log("initialisation");
 });
-mongo.on('open',()=>{
-    console.log('connexion etablie');
-
+mongo.on("open", () => {
+  console.log("connexion etablie");
 });
 
-mongo.on('error',(err)=>{
-    console.log(err);
+mongo.on("error", (err) => {
+  console.log(err);
 });
 
 /**
@@ -40,28 +37,28 @@ mongo.on('error',(err)=>{
  * @returns {Promise} when app end to start
  */
 async function start() {
-    if (app) {
-        return app;
-    }
-    logger.info('Express web server creation');
-    app = configure(express());
-    server = http.createServer(app);
-
-    require("./api/product/index")(app);
-    require("./api/comment/index")(app);
-    require("./api/reaction/index")(app);
-    
-    await server.listen(app.get('port'));
-
-    logger.info(
-        {
-            port: server.address().port,
-            environment: process.env.NODE_ENV,
-        },
-        '✔ Server running',
-    );
-
+  if (app) {
     return app;
+  }
+  logger.info("Express web server creation");
+  app = configure(express());
+  server = http.createServer(app);
+
+  require("./api/product/index")(app);
+  require("./api/comment/index")(app);
+  require("./api/reaction/index")(app);
+
+  await server.listen(app.get("port"));
+
+  logger.info(
+    {
+      port: server.address().port,
+      environment: process.env.NODE_ENV,
+    },
+    "✔ Server running"
+  );
+
+  return app;
 }
 
 /**
@@ -70,26 +67,26 @@ async function start() {
  * @returns {Promise} when app end to start
  */
 async function stop() {
-    if (server) {
-        await server.close();
-        server = null;
-        app = null;
-    }
-    await mongoose.disconnect();
-    return Promise.resolve();
+  if (server) {
+    await server.close();
+    server = null;
+    app = null;
+  }
+  await mongoose.disconnect();
+  return Promise.resolve();
 }
 
 if (!module.parent) {
-    co(start);
+  co(start);
 }
 
 module.exports = {
-    start,
-    stop,
-    get server() {
-        return server;
-    },
-    get app() {
-        return app;
-    },
+  start,
+  stop,
+  get server() {
+    return server;
+  },
+  get app() {
+    return app;
+  },
 };

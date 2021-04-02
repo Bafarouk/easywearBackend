@@ -1,3 +1,4 @@
+
 const express = require('express');
 const router=  express.Router();
 const controller = require('./controller');
@@ -13,4 +14,5 @@ router.put("/:id",  wrap(controller.update));
 router.delete("/:id",  wrap(controller.delete));
 router.delete("/",  wrap(controller.deleteAll));
 app.use('/api/product', router);
+
 };

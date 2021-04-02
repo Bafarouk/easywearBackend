@@ -54,8 +54,6 @@ function collection() {
 
 const insertOne = async (post) => {
   const uploadResponse = await cloudinary.uploader.upload(post.image_url);
-  console.log("image url ");
-  console.log(post.image_url);
   if (!uploadResponse) post.image_url = "https://picsum.photos/200";
   post.image_url = uploadResponse.url;
   post.cloudinaryImageId = uploadResponse.public_id;

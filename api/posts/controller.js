@@ -70,6 +70,15 @@ const deletePost = async (req, res) => {
   }
 };
 
+async function getEventPosts(req,res){
+    let event_id = req.query.event_id;
+    const list_events = await posts.findEventPosts(event_id);
+    if (list_events){
+      return res.status(200).send(list_events);
+    }
+    return res.status(404).send();
+}
+
 module.exports = {
   addPost,
   getPosts,
@@ -77,4 +86,5 @@ module.exports = {
   putPost,
   deletePost,
   getUserPosts,
+  getEventPosts
 };

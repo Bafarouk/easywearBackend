@@ -10,6 +10,7 @@ router.get('/getAllEvents',wrap(controller.getAllEvents));
 router.get('/getEventById',wrap(controller.getEventById));
 router.get('/getEventByEventName',wrap(controller.getEventByEventName));
 router.put('/updateEvent',wrap(controller.updateEvent));
+router.get('/getRecentEvents',wrap(controller.getRecentEvents));
 
 
 module.exports = router ;

@@ -11,5 +11,6 @@ router.get("/:id", wrap(controller.getPostById));
 
 router.put("/:id", wrap(controller.putPost));
 router.delete("/:id", wrap(controller.deletePost));
+router.get("/getEventPosts",wrap(controller.getEventPosts));
 
 module.exports = router;

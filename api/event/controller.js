@@ -59,6 +59,14 @@ async function updateEvent(req,res){
     return res.status(404).send();
 }
 
+async function getRecentEvents(req,res){
+    const recent_events = await events.findRecentEvents();
+    if (recent_events){
+        return res.status(200).send(recent_events);
+    }
+    return res.status(404).send();
+}
+
 
 
 module.exports = {
@@ -67,5 +75,6 @@ module.exports = {
     getAllEvents,
     getEventById,
     getEventByEventName,
-    updateEvent
+    updateEvent,
+    getRecentEvents
 }; 

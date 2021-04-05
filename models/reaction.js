@@ -1,20 +1,19 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 //const Joi = require('../lib/joi');
 //const dateReaction = require('../lib/date');
 //const { ObjectId } = require('mongoose').Types;
 
 const reaction = mongoose.Schema({
-    reactiontype: String,
-    date_creation: Date,
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User" 
-        },
-    post_id: { 
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Post"
-    }
-    
+  reactiontype: String,
+  date_creation: Date,
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  post_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Post",
+  },
 });
 module.exports = mongoose.model("reactions", reaction);
 /*

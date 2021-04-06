@@ -59,7 +59,6 @@ async function findAllByType(req, res) {
 }
 async function findAllByClaimUrl(req, res) {
   const claim = await claims.findAllByClaimUrl(req.params.claim_url);
-  console.log(req.params.claim_url);
 
 
   if (claim) {

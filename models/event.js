@@ -72,6 +72,11 @@ async function findRecentEvents(){
     return await collection().find({}).sort({date_debut: -1});
 }
 
+
+async function findRecentEventsFin(){
+    return await collection().find({}).sort({date_fin: -1});
+}
+
 async function updateOne(event_name, updatedFields) {
     const result = await collection().updateOne(
         { eventName: event_name },
@@ -89,5 +94,6 @@ module.exports= {
     findOneById,
     updateOne,
     deleteOneByEventName,
-    findRecentEvents
+    findRecentEvents,
+    findRecentEventsFin
 };

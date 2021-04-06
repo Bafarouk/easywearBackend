@@ -141,6 +141,13 @@ async function findEventPosts(event_id){
   return await collection().find({event_id: event_id});
 }
 
+async function countPostsByEvent(){
+   return await collection().countDocuments({} , function(err, c) {
+    console.log('Count is ' + c);
+    return c;
+  });
+}
+
 module.exports = {
   insertOne,
   findAll,
@@ -148,5 +155,6 @@ module.exports = {
   updatePost,
   deletePost,
   findAllPostsByUserId,
-  findEventPosts
+  findEventPosts,
+  countPostsByEvent
 };

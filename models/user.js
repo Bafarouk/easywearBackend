@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const Joi = require("../lib/joi");
 const dateReaction = require("../lib/date");
 const { ObjectId } = require("mongoose").Types;
+const { cloudinary } = require("./../utils/cloudinary");
+
 
 const userSchema = mongoose.Schema({
   first_name: String,
@@ -50,6 +52,11 @@ function collection() {
 }
 
 async function insertOne(user) {
+
+  const uploadResponse = await cloudinary.uploader.upload(user.image_url);
+  if (!uploadResponse) user.image_url = "https://picsum.photos/200";
+  user.image_url = uploadResponse.url;
+
   const user_validate = _validateSchema(user);
   if (user_validate) {
     const user_returned = await collection().insertMany(user_validate);

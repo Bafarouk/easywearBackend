@@ -43,7 +43,7 @@ async function sendMail(req, res) {
     service: "gmail",
     auth: {
       user: "rana.chaabane@esprit.tn",
-      pass: "ranach123456789",
+      pass: "****",
     },
   });
 

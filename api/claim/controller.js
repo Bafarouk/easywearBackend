@@ -49,17 +49,25 @@ async function findAll(req, res) {
 }
 
 async function findAllByType(req, res) {
-  const claim = await claims.findAllByType(req.query.type);
-
+  const claim = await claims.findAllByType(req.query.type, req.params.id);
 
   if (claim) {
     return res.status(200).send(claim);
   }
   return res.status(400).end();
 }
+
+async function findAllByUser(req, res) {
+  const claim = await claims.findAllByUser(req.params.id);
+
+  if (claim) {
+    return res.status(200).send(claim);
+  }
+  return res.status(400).end();
+}
+
 async function findAllByClaimUrl(req, res) {
   const claim = await claims.findAllByClaimUrl(req.params.claim_url);
-
 
   if (claim) {
     return res.status(200).send(claim);
@@ -76,5 +84,5 @@ module.exports = {
   findAll,
   findAllByType,
   findAllByClaimUrl,
-
+  findAllByUser,
 };

@@ -140,14 +140,26 @@ async function findAll() {
   }
 }
 
-async function findAllByType(type) {
+async function findAllByType(type, id) {
   try {
-    const claim_returned = await collection().find({ type: type });
+    const claim_returned = await collection().find({
+      $and: [{ type: type }, { user_id: id }],
+    });
     return claim_returned;
   } catch (error) {
     console.log(error.message);
   }
 }
+
+async function findAllByUser(id) {
+  try {
+    const claim_returned = await collection().find({ user_id: id });
+    return claim_returned;
+  } catch (error) {
+    console.log(error.message);
+  }
+}
+
 async function findAllByClaimUrl(claim_url) {
   try {
     const claim_returned = await collection().find({ claim_url: claim_url });
@@ -167,4 +179,5 @@ module.exports = {
   findAll,
   findAllByType,
   findAllByClaimUrl,
+  findAllByUser,
 };

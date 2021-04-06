@@ -9,11 +9,12 @@ router.get(
 );
 
 router.get("/findOne/:id", wrap(controller.findOne));
+router.get("/findAllByUser/:id", wrap(controller.findAllByUser));
 router.get("/findAll", wrap(controller.findAll));
 router.post("/addClaim", wrap(controller.addClaim));
 router.delete("/delete/:id", wrap(controller.deleteClaim));
 router.put("/validateClaim/:id", wrap(controller.validateClaim));
 router.put("/UpdateClaim/:id", wrap(controller.updateclaimByUser));
-router.get("/findAllByType", wrap(controller.findAllByType));
+router.get("/findAllByType/:id", wrap(controller.findAllByType));
 
 module.exports = router;

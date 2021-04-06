@@ -20,10 +20,10 @@ module.exports = (app) => {
 
   router.use("/contact", contactRoute);
 
+
   router.use("/payment", paymentRoute);
   router.use("/webscrapping", webScrappingRoute);
 
   app.use("/api", router);
-
 
 };

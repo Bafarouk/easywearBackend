@@ -70,12 +70,12 @@ exports.create = (req, res) => {
 
 
   exports.findAll = (req, res) => {
-    const { page, size, title } = req.query
-      var condition = title ? { title: { $regex: new RegExp(title), $options: "i" } } : {};
+    const { page, size, name } = req.query
+      var condition = name ? { productName: { $regex: new RegExp(name), $options: "i" } } : {};
    
       const { limit, offset } = getPagination(page, size);
 
-     
+    console.log(condition);
       Product.paginate(condition, { offset, limit })
         .then((data) => {
           res.send({

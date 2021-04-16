@@ -76,7 +76,7 @@ exports.create = (req, res) => {
       const { limit, offset } = getPagination(page, size);
 
     console.log(condition);
-      Product.paginate(condition, { offset, limit })
+      Product.paginate(condition, { offset, limit,sort:{ productPrice:1,productPrice:-1,} })
         .then((data) => {
           res.send({
             totalItems: data.totalDocs,

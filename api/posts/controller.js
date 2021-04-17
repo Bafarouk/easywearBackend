@@ -80,9 +80,10 @@ async function getEventPosts(req,res){
 }
 
 async function countPosts(req,res){
-  const nbr_posts = await posts.countPostsByEvent();
+  let eventss_id = req.params.eventId;
+  const nbr_posts = await posts.countPostsByEvent(eventss_id);
   if(nbr_posts){
-    return res.status(200).send(nbr_posts);
+    return res.json(nbr_posts);
   }
   return res.status(404).send();
 }

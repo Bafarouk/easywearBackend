@@ -141,10 +141,10 @@ async function findEventPosts(event_id){
   return await collection().find({event_id: event_id});
 }
 
-async function countPostsByEvent(){
-   return await collection().countDocuments({} , function(err, c) {
+async function countPostsByEvent(event_id){
+   return await collection().countDocuments({event_id: event_id} , function(err, c) {
     console.log('Count is ' + c);
-    return c;
+    
   });
 }
 

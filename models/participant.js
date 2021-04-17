@@ -8,7 +8,7 @@ const participantSchema = mongoose.Schema({
     date_creation: Date,
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User" 
+        ref: "User"
         },
     event_id: { 
         type: mongoose.Schema.Types.ObjectId,
@@ -31,6 +31,21 @@ function _validateSchema(participant1){
 
 function collection (){
     return mongoose.model('Participant', participantSchema);
+}
+
+
+async function insertOne(participant){
+    // const event_validate = _validateSchema(event);
+    // if(event_validate){
+         const participant_returned = await collection().insertMany(participant);
+         return participant_returned;
+     //}
+    // return null;
+ }
+
+
+async function deleteOne(event_name){
+
 }
 
 

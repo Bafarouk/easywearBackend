@@ -8,6 +8,7 @@ const eventSchema = mongoose.Schema({
     eventName: String,
     date_debut: Date,
     date_fin: Date,
+    description: String,
     image_url: String, 
     user_id: {
         type:mongoose.Schema.Types.ObjectId,
@@ -19,6 +20,7 @@ const eventSchema = mongoose.Schema({
 const joiEventSchema = Joi.object({
     _id: Joi.objectId(),
     eventName: Joi.string().required(),
+    description: Joi.string().required(),
     date_debut: Joi.date(),
     date_fin: Joi.date(),
     image_url: Joi.string().required(),
@@ -66,6 +68,15 @@ async function findOneByEventName(event_name, projections = {}) {
     return await collection().findOne({ eventName: event_name }, projections);
 }
 
+async function findRecentEvents(){
+    return await collection().find({}).sort({date_debut: -1});
+}
+
+
+async function findRecentEventsFin(){
+    return await collection().find({}).sort({date_fin: -1});
+}
+
 async function updateOne(event_name, updatedFields) {
     const result = await collection().updateOne(
         { eventName: event_name },
@@ -76,13 +87,13 @@ async function updateOne(event_name, updatedFields) {
 
 
 
-
-
 module.exports= {
     insertOne,
     find,
     findOneByEventName,
     findOneById,
     updateOne,
-    deleteOneByEventName
+    deleteOneByEventName,
+    findRecentEvents,
+    findRecentEventsFin
 };

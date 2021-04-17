@@ -14,7 +14,7 @@ async function addEvent(req,res){
     if(event){
         return res.status(200).send(event);
     }
-    return res.status(400).end();
+    return res.status(404).end();
 }
 
 async function deleteEvent(req,res){
@@ -59,6 +59,23 @@ async function updateEvent(req,res){
     return res.status(404).send();
 }
 
+async function getRecentEvents(req,res){
+    const recent_events = await events.findRecentEvents();
+    if (recent_events){
+        return res.status(200).send(recent_events);
+    }
+    return res.status(404).send();
+}
+
+
+async function getRecentEventsFin(req,res){
+    const recent_events = await events.findRecentEventsFin();
+    if (recent_events){
+        return res.status(200).send(recent_events);
+    }
+    return res.status(404).send();
+}
+
 
 
 module.exports = {
@@ -67,5 +84,7 @@ module.exports = {
     getAllEvents,
     getEventById,
     getEventByEventName,
-    updateEvent
+    updateEvent,
+    getRecentEvents,
+    getRecentEventsFin
 }; 

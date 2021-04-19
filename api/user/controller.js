@@ -85,6 +85,20 @@ async function profile(req, res) {
   }
 }
 
+async function getUserById(req, res) {
+  var decoded = jwt.verify(
+    req.headers["authorization"],
+    process.env.SECRET_KEY
+  );
+
+  let user = await users.findUserbyId(req.params.id);
+  if (user) {
+    res.json(user);
+  } else {
+    res.json({ error: "User does not exist" });
+  }
+}
+
 async function deleteUser(req, res) {
   var decoded = jwt.verify(
     req.headers["authorization"],
@@ -150,4 +164,5 @@ module.exports = {
   deleteUser,
   updateUser,
   getAllUsers,
+  getUserById,
 };

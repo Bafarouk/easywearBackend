@@ -74,6 +74,24 @@ const deletePost = async (req, res) => {
   }
 };
 
+async function getEventPosts(req,res){
+    let eventss_id = req.params.eventId;
+    const list_posts = await posts.findEventPosts(eventss_id);
+    if (list_posts){
+      return res.status(200).send(list_posts);
+    }
+    return res.status(404).send("aloooo");
+}
+
+async function countPosts(req,res){
+  let eventss_id = req.params.eventId;
+  const nbr_posts = await posts.countPostsByEvent(eventss_id);
+  if(nbr_posts){
+    return res.json(nbr_posts);
+  }
+  return res.status(404).send();
+}
+
 module.exports = {
   addPost,
   getPosts,
@@ -81,4 +99,6 @@ module.exports = {
   putPost,
   deletePost,
   getUserPosts,
+  getEventPosts,
+  countPosts
 };

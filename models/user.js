@@ -72,8 +72,8 @@ async function findUserbyId(id) {
   return user;
 }
 
-async function deleteUser(email) {
-  const user = await collection().find({ email: email });
+async function deleteUser(id) {
+  const user = await collection().find({ _id: id });
   if (user) {
     await collection().deleteOne({ id: user._id });
     return true;

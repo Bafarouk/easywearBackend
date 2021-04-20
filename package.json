@@ -41,6 +41,7 @@
     "request-promise": "^4.2.4",
     "request-promise-core": "^1.1.2",
     "paypal-rest-sdk": "^1.8.1",
-    "twig": "^1.15.4"
+    "twig": "^1.15.4",
+    "underscore": "^1.12.1"
   }
 }

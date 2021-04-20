@@ -9,7 +9,7 @@ const contactRoute = require("./contact");
 
 const paymentRoute = require("./payment");
 const webScrappingRoute = require("./webscrapping");
-
+const recommendation = require("./recommendation");
 
 module.exports = (app) => {
   const router = Router();
@@ -20,10 +20,9 @@ module.exports = (app) => {
 
   router.use("/contact", contactRoute);
 
-
   router.use("/payment", paymentRoute);
   router.use("/webscrapping", webScrappingRoute);
+  router.use("/recommendation", recommendation);
 
   app.use("/api", router);
-
 };

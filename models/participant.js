@@ -4,16 +4,17 @@ const dateParticipation = require("../lib/date");
 const { ObjectId } = require("mongoose").Types;
 
 const participantSchema = mongoose.Schema({
-  description: String,
-  date_creation: Date,
-  user_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
-  event_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Event",
-  },
+tion: String,
+    date_creation: Date,
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+        },
+    event_id: { 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Event"
+    }
+
 });
 
 const joiParticipantSchema = Joi.object({
@@ -35,4 +36,25 @@ function collection() {
   return mongoose.model("Participant", participantSchema);
 }
 
-module.exports = {};
+
+async function insertOne(participant){
+    // const event_validate = _validateSchema(event);
+    // if(event_validate){
+         const participant_returned = await collection().insertMany(participant);
+         return participant_returned;
+     //}
+    // return null;
+ }
+
+
+async function deleteOne(event_name){
+
+}
+
+
+
+
+module.exports= {
+  
+};
+

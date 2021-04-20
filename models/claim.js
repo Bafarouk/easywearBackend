@@ -179,5 +179,7 @@ module.exports = {
   findAll,
   findAllByType,
   findAllByClaimUrl,
+
   findAllByUser,
+
 };

@@ -1,5 +1,7 @@
 const rp = require("request-promise");
 
+const productController = require("../product/controller");
+
 const $ = require("cheerio");
 const Product = require("../../models/product");
 const url = "https://www.zara.com/tn/fr/homme-maille-l681.html?v1=1717716";

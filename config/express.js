@@ -2,7 +2,6 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const paypal = require("paypal-rest-sdk");
 
-
 const config = require("../config");
 const api = require("../api");
 var cors = require("cors");
@@ -18,7 +17,6 @@ function configure(app) {
   /** Body parser */
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   app.use(express.json({ limit: "50mb" }));
-
 
   /** paypal config */
   paypal.configure({
@@ -37,7 +35,6 @@ function configure(app) {
 
   /** Set-up routes */
   api(app);
-
 
   /**  App configuration. */
   app.set("port", config.port);

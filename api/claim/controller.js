@@ -51,6 +51,7 @@ async function findAll(req, res) {
 async function findAllByType(req, res) {
   const claim = await claims.findAllByType(req.query.type, req.params.id);
 
+
   if (claim) {
     return res.status(200).send(claim);
   }
@@ -59,6 +60,7 @@ async function findAllByType(req, res) {
 
 async function findAllByUser(req, res) {
   const claim = await claims.findAllByUser(req.params.id);
+
 
   if (claim) {
     return res.status(200).send(claim);
@@ -84,5 +86,7 @@ module.exports = {
   findAll,
   findAllByType,
   findAllByClaimUrl,
+
   findAllByUser,
+
 };

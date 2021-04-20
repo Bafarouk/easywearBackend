@@ -143,6 +143,16 @@ async function getAllUsers(req, res) {
   }
 }
 
+async function getUserById(req, res) {
+  console.log(req.params.id);
+  let user = await users.findUserbyId(req.params.id);
+  if (user) {
+    res.json(user);
+  } else {
+    res.send("no user found by that ID");
+  }
+}
+
 module.exports = {
   addUser,
   login,
@@ -150,4 +160,5 @@ module.exports = {
   deleteUser,
   updateUser,
   getAllUsers,
+  getUserById,
 };

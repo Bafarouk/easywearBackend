@@ -101,22 +101,32 @@ const updatePost = async (id, post) => {
       const postToUpdate = await collection().findById(id);
 
       //Upload Image to Cloudinary
-      await cloudinary.uploader.destroy(postToUpdate.cloudinaryImageId);
-      const uploadResponse = await cloudinary.uploader.upload(post.image_url);
-      //End Upload Image
 
-      if (!uploadResponse) postToUpdate.image_url = "https://picsum.photos/200";
+      const uploadResponse = await cloudinary.uploader.upload(
+        post_validate.image_url
+      );
+      await cloudinary.uploader.destroy(postToUpdate.cloudinaryImageId);
+
+      //End Upload Image
+      const imageUrl = "";
+
+      if (!uploadResponse) {
+        imageUrl = "https://picsum.photos/200";
+      } else {
+        imageUrl = uploadResponse.url;
+      }
 
       if (!postToUpdate) {
         console.log("Post wasnt found");
         return null;
+      } else {
+        postToUpdate.title = post.title;
+        postToUpdate.description = post.description;
+        postToUpdate.image_url = imageUrl;
+        postToUpdate.cloudinaryImageId = uploadResponse.public_id;
+        postToUpdate.save();
+        return postToUpdate;
       }
-      postToUpdate.title = post.title;
-      postToUpdate.description = post.description;
-      postToUpdate.image_url = uploadResponse.url;
-      postToUpdate.cloudinaryImageId = uploadResponse.public_id;
-      postToUpdate.save();
-      return postToUpdate;
     }
     return null;
   } catch (error) {

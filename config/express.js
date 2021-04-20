@@ -2,7 +2,6 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const paypal = require("paypal-rest-sdk");
 
-
 const config = require("../config");
 const api = require("../api");
 var cors = require("cors");
@@ -19,7 +18,6 @@ function configure(app) {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   app.use(express.json({ limit: "50mb" }));
 
-
   /** paypal config */
   paypal.configure({
     mode: "sandbox", //sandbox or live
@@ -30,14 +28,13 @@ function configure(app) {
   });
 
   /** prevent CORS failures for this test */
-  app.use(cors());
+  app.use(cors({ origin: "http://localhost:3000" }));
 
   /** Apidoc */
   app.use("/apidoc", express.static("apidoc"));
 
   /** Set-up routes */
   api(app);
-
 
   /**  App configuration. */
   app.set("port", config.port);

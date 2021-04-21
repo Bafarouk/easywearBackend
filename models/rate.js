@@ -33,8 +33,8 @@ function _validateSchema(rate) {
   return Joi.attempt(rate, joiRateSchema);
 }
 
-async function findRatebyId(id) {
-  const rate = await collection().findOne({ _id: id });
+async function findRatebyId(id, prodID) {
+  const rate = await collection().findOne({ user_id: id, product_id: prodID });
   return rate;
 }
 
@@ -87,9 +87,10 @@ async function insertOne(rate) {
 }
 
 async function deleteRate(id) {
-  const rate = await collection().find({ _id: id });
+  const rate = await collection().find({ product_id: id });
+  console.log(rate);
   if (rate) {
-    await collection().deleteOne({ _id: id });
+    await collection().deleteOne({ product_id: id });
     return true;
   }
   return false;

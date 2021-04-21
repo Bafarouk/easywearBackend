@@ -54,12 +54,23 @@ async function addSuggestion(req, res) {
 
 async function deleteRate(req, res) {
   console.log("delete rate");
-  let rate = await Rate.findRatebyId(req.params.id);
+  console.log(req.params);
+
+  const rate = Rate.deleteRate(req.params.id);
   if (rate) {
-    Rate.deleteRate(req.params.id);
     res.send("rate deleted successfully");
   } else {
-    res.send("Rate does not exist");
+    res.send("Rate Does not exist");
+  }
+}
+
+async function getRateByUserId(req, res) {
+  console.log(req.params);
+  let rate = await Rate.findRatebyId(req.params.user_id, req.params.product_id);
+  if (rate) {
+    res.send(rate);
+  } else {
+    res.send({});
   }
 }
 
@@ -176,6 +187,7 @@ async function rateItem(req, res) {
 
 module.exports = {
   addRate,
+  getRateByUserId,
   addSimilar,
   addSuggestion,
   deleteRate,

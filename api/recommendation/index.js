@@ -10,6 +10,7 @@ router.delete("/delete/:id", wrap(controller.deleteRate));
 router.delete("/deleteSimilar/:id", wrap(controller.deleteSimilar));
 router.delete("/deleteSuggestion/:id", wrap(controller.deleteSuggestion));
 router.get("/itemsByUser", wrap(controller.itemsByUser));
+router.get("/findRate/:user_id/:product_id", wrap(controller.getRateByUserId));
 router.get("/usersByItem", wrap(controller.usersByItem));
 router.get("/updateSimilar", wrap(controller.updateSimilar));
 router.get("/updateSuggestion", wrap(controller.updateSuggestion));

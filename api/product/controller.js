@@ -166,7 +166,12 @@ exports.getSimilarProductsBasedOnPrice = async (req, res) => {
     var filteredKeywords = keywords.filter(function (e) {
       return e !== "Tjw" && e !== "Femme";
     });
-    console.log(filteredKeywords);
+    //Getting Product price
+    const prodPrice = parseFloat(
+      product.productPrice.replace(/[^0-9.-]+/g, "")
+    );
+
+    console.log(prodPrice);
     //Search for products that contains a word of the name of the given product
     var similarProducts = [];
 
@@ -174,7 +179,7 @@ exports.getSimilarProductsBasedOnPrice = async (req, res) => {
       filteredKeywords.map(async (p) => {
         similarProducts = await Product.find({
           productName: { $regex: p, $options: "i" },
-        });
+        }).sort({ productPrice: 1 });
       })
     );
     res.send(similarProducts);

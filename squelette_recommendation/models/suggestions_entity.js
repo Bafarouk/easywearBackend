@@ -46,24 +46,24 @@ async function deleteSuggestion(id) {
 // this is most important method it will update the list of suggestions
 async function updateSuggestion(user_id) {
   let uLikes = await Rate.findItemsByUser(user_id, "like");
-  console.log("#### userLikes ####");
-  console.log(_.pluck(uLikes, "product_id"));
+  //console.log("#### userLikes ####");
+  //console.log(_.pluck(uLikes, "product_id"));
   let likes = _.pluck(uLikes, "product_id");
   for (let i = 0; i < likes.length; i++) {
     likes[i] = likes[i].toString();
   }
-  console.log(likes);
+  //console.log(likes);
   let uDislikes = await Rate.findItemsByUser(user_id, "dislike");
-  console.log("#### userDislikes ####");
-  console.log(uDislikes);
+  //console.log("#### userDislikes ####");
+  //console.log(uDislikes);
   let dislikes = _.pluck(uDislikes, "product_id");
   for (let i = 0; i < dislikes.length; i++) {
     dislikes[i] = dislikes[i].toString();
   }
-  console.log(dislikes);
+  //console.log(dislikes);
   let oUsers = await Similar.findSimilarbyUserId(user_id);
-  console.log("#### Similar users ####");
-  console.log(oUsers.similar);
+  //console.log("#### Similar users ####");
+  //console.log(oUsers.similar);
   let items = [];
   let others = _.pluck(oUsers.similar, "user_id");
   for (let i = 0; i < others.length; i++) {
@@ -71,9 +71,9 @@ async function updateSuggestion(user_id) {
     let rates = await Rate.findItemsByUserId(others[i]);
     if (rates) items.push(rates);
   }
-  console.log(others);
+  /* console.log(others);
 
-  console.log("#### items ####");
+  console.log("#### items ####");*/
   items = _.pluck(_.flatten(items, "product_id"), "product_id");
   for (let i = 0; i < items.length; i++) {
     items[i] = items[i].toString();
@@ -82,28 +82,28 @@ async function updateSuggestion(user_id) {
     _.unique(_.flatten(items)),
     _.flatten([likes, dislikes])
   );
-  console.log(items);
+  // console.log(items);
   let suggestion = [];
   for (let i = 0; i < items.length; i++) {
-    console.log("#### user " + i + " ####");
+    // console.log("#### user " + i + " ####");
     let likers = await Rate.findUsersByItemRate(items[i], "like");
     let dislikers = await Rate.findUsersByItemRate(items[i], "dislike");
-    console.log("#### likers ####");
+    /*console.log("#### likers ####");
     console.log(likers);
     console.log("#### dislikers ####");
-    console.log(dislikers);
+    console.log(dislikers);*/
     let numerator = 0;
     tab = _.without(_.flatten([likers, dislikers]), user_id);
     for (let other of tab) {
-      console.log("for " + other);
+      //console.log("for " + other);
       other = _.pluck(_.flatten(other), "user_id");
-      console.log("##################");
-      console.log(other);
+      //console.log("##################");
+      //console.log(other);
       other = _.findWhere(oUsers.similar, other);
-      console.log(other);
+      //console.log(other);
       if (other) {
         numerator += other.similarity;
-        console.log(other.similarity);
+        //console.log(other.similarity);
       }
     }
     suggestion.push({
@@ -115,7 +115,7 @@ async function updateSuggestion(user_id) {
   const sugg = await findSuggestionbyUserId(user_id);
   if (sugg) {
     // if the user have already a list of suggestions it will be deleted and replaced with the newly generated list
-    console.log("exists");
+    //console.log("exists");
     await deleteSuggestion(user_id);
     const sugg = await insertOne({ user_id: user_id, suggestion: suggestion });
     return sugg;

@@ -56,6 +56,15 @@ exports.saveall = async (data) => {
   return count;
 };
 
+exports.findAllWithoutPagination = async (req, res) => {
+  const Products = await Product.find();
+  if (Products) {
+    res.status(200).send(Products);
+  } else {
+    res.status(404).send("Products not found");
+  }
+};
+
 exports.findAll = (req, res) => {
   const { page, size, title } = req.query;
   var condition = title

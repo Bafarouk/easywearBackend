@@ -56,9 +56,9 @@ async function deleteRate(req, res) {
   console.log("delete rate");
   console.log(req.params);
 
-  const rate = Rate.deleteRate(req.params.id);
+  const rate = await Rate.deleteRate(req.params.user_id, req.params.product_id);
   if (rate) {
-    res.send("rate deleted successfully");
+    res.send(rate);
   } else {
     res.send("Rate Does not exist");
   }
@@ -148,6 +148,16 @@ async function getSuggestionByUserId(req, res) {
   }
 }
 
+async function getSuggestionByUserIdparam(req, res) {
+  console.log("get Suggestion by user id");
+  let suggestion = await Suggestion.findSuggestionbyUserId(req.params.user_id);
+  if (suggestion) {
+    res.send(suggestion);
+  } else {
+    res.send("Suggestion does not exist");
+  }
+}
+
 async function rateItem(req, res) {
   const rate = {
     date_creation: Date.now(),
@@ -157,20 +167,20 @@ async function rateItem(req, res) {
   };
   Rate.insertOne(rate)
     .then(async (rate) => {
-      console.log("##################### Rate ########################");
-      console.log(rate);
+      // console.log("##################### Rate ########################");
+      //console.log(rate);
 
       let similar = await Similar.updateSimilar(req.body.user_id);
       if (similar) {
-        console.log(
+        /* console.log(
           "########################## update Similar #######################"
-        );
-        console.log(similar);
+        );*/
+        //console.log(similar);
         let suggestion = await Suggestion.updateSuggestion(req.body.user_id);
         if (suggestion) {
-          console.log(
+          /* console.log(
             "############################# update Suggestion ############################"
-          );
+          );*/
           console.log(suggestion);
           res.send(suggestion);
         } else {
@@ -198,5 +208,6 @@ module.exports = {
   updateSimilar,
   updateSuggestion,
   getSuggestionByUserId,
+  getSuggestionByUserIdparam,
   rateItem,
 };

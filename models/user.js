@@ -4,7 +4,6 @@ const dateReaction = require("../lib/date");
 const { ObjectId } = require("mongoose").Types;
 const { cloudinary } = require("./../utils/cloudinary");
 
-
 const userSchema = mongoose.Schema({
   first_name: String,
   last_name: String,
@@ -52,11 +51,9 @@ function collection() {
 }
 
 async function insertOne(user) {
-
   const uploadResponse = await cloudinary.uploader.upload(user.image_url);
   if (!uploadResponse) user.image_url = "https://picsum.photos/200";
   user.image_url = uploadResponse.url;
-
   const user_validate = _validateSchema(user);
   if (user_validate) {
     const user_returned = await collection().insertMany(user_validate);
@@ -75,8 +72,8 @@ async function findUserbyId(id) {
   return user;
 }
 
-async function deleteUser(email) {
-  const user = await collection().find({ email: email });
+async function deleteUser(id) {
+  const user = await collection().find({ _id: id });
   if (user) {
     await collection().deleteOne({ id: user._id });
     return true;

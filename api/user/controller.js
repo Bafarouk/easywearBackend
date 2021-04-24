@@ -38,7 +38,32 @@ async function addUser(req, res) {
     });
   }
 }
+async function addUserAdmin(req, res) {
+  userr = req.body;
+  let user1 = await users.findUserbyEmail(req.body.email);
+  if (user1) {
+    console.log(user1);
+    console.log(req.body.email + " user exists please choose another one !");
+    res.json({ error: "user exists" });
+  } else {
+    bcrypt.hash(req.body.password, 10, (err, hash) => {
+      userr.password = hash;
 
+      users
+        .insertOne(userr)
+        .then((data) => {
+          userr._id = data[0]._id;
+          console.log(userr);
+          console.log(data);
+
+          res.send(userr);
+        })
+        .catch((err) => {
+          res.send("error: " + err);
+        });
+    });
+  }
+}
 async function login(req, res) {
   let user1 = await users.findUserbyEmail(req.body.email);
   if (!user1) {
@@ -91,10 +116,10 @@ async function deleteUser(req, res) {
     process.env.SECRET_KEY
   );
   console.log("delete");
-  let user = await users.findUserbyEmail(req.body.email);
+  let user = await users.findUserbyId(req.params.id);
   if (user) {
     if (decoded.role === "admin") {
-      users.deleteUser(decoded.email);
+      users.deleteUser(req.params.id);
       res.send("user deleted successfully");
     } else {
       res.send("user not deleted you need admin privilege");
@@ -109,7 +134,8 @@ async function updateUser(req, res) {
     req.headers["authorization"],
     process.env.SECRET_KEY
   );
-  let user = await users.findUserbyEmail(req.body.email);
+  console.log(req.params.id);
+  let user = await users.findUserbyId(req.params.id);
   if (user) {
     if (decoded.role === "admin" || user._id == decoded._id) {
       console.log("update");
@@ -143,11 +169,27 @@ async function getAllUsers(req, res) {
   }
 }
 
+async function getUserById(req, res) {
+  var decoded = jwt.verify(
+    req.headers["authorization"],
+    process.env.SECRET_KEY
+  );
+
+  let user = await users.findUserbyId(req.params.id);
+  if (user) {
+    res.json(user);
+  } else {
+    res.json({ error: "User does not exist" });
+  }
+}
+
 module.exports = {
   addUser,
+  addUserAdmin,
   login,
   profile,
   deleteUser,
   updateUser,
   getAllUsers,
+  getUserById,
 };

@@ -8,7 +8,9 @@ const wrap = require('co-express');
 module.exports = app => {
 router.post("/", wrap(controller.create));
 router.post("/scrapping", wrap(scrapping.scrap));
-router.get("/",  wrap(controller.findAll));
+    router.get("/", wrap(controller.findAll));
+    router.get("/recommandation", wrap(controller.recommandation));
+router.get("/filters", wrap(controller.filters));    
 router.get("/:id",  wrap(controller.findOne));
 router.put("/:id",  wrap(controller.update));
 router.delete("/:id",  wrap(controller.delete));

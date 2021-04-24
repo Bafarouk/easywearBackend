@@ -108,7 +108,7 @@ const updatePost = async (id, post) => {
       await cloudinary.uploader.destroy(postToUpdate.cloudinaryImageId);
 
       //End Upload Image
-      const imageUrl = "";
+      var imageUrl = "";
 
       if (!uploadResponse) {
         imageUrl = "https://picsum.photos/200";
@@ -147,15 +147,17 @@ const deletePost = async (id) => {
   }
 };
 
-async function findEventPosts(event_id){
-  return await collection().find({event_id: event_id});
+async function findEventPosts(event_id) {
+  return await collection().find({ event_id: event_id });
 }
 
-async function countPostsByEvent(event_id){
-   return await collection().countDocuments({event_id: event_id} , function(err, c) {
-    console.log('Count is ' + c);
-    
-  });
+async function countPostsByEvent(event_id) {
+  return await collection().countDocuments(
+    { event_id: event_id },
+    function (err, c) {
+      console.log("Count is " + c);
+    }
+  );
 }
 
 module.exports = {
@@ -166,5 +168,5 @@ module.exports = {
   deletePost,
   findAllPostsByUserId,
   findEventPosts,
-  countPostsByEvent
+  countPostsByEvent,
 };

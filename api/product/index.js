@@ -12,6 +12,7 @@ module.exports = (app) => {
     "/getSimilarProducts/:id",
     wrap(controller.getSimilarProductsBasedOnPrice)
   );
+  router.get("/filters", wrap(controller.filters));
   router.get("/getAllProducts", wrap(controller.findAllWithoutPagination));
   router.get("/:id", wrap(controller.findOne));
   router.put("/:id", wrap(controller.update));

@@ -73,13 +73,70 @@ exports.findAll = (req, res) => {
 
   const { limit, offset } = getPagination(page, size);
 
-  Product.paginate(condition, { offset, limit })
+  Product.paginate(condition, { offset, limit }).then((data) => {
+    res.send({
+      totalItems: data.totalDocs,
+      products: data.docs,
+      totalPages: data.totalPages,
+      currentPage: data.page - 1,
+    });
+  });
+};
+
+exports.saveall = async (data) => {
+  var count = 0;
+  for (const element of data) {
+    const { error } = Joi.validate(element, schemaEvent);
+    if (error == null) {
+      const product = new Product(element);
+      await product.save(product);
+      count = count + 1;
+    }
+  }
+  return count;
+};
+
+exports.findAll = (req, res) => {
+  const { page, size, name, brands, pricemin, pricemax } = req.query;
+  var condition = {};
+  const c1 = name
+    ? (condition.productName = { $regex: new RegExp(name), $options: "i" })
+    : null;
+  const c2 = brands
+    ? (condition.productBrand = { $in: brands.split(",") })
+    : null;
+  const c3 = pricemin
+    ? (condition.productPrice = { $gte: pricemin, $lte: pricemax })
+    : null;
+
+  const { limit, offset } = getPagination(page, size);
+
+  console.log(condition);
+  Product.paginate(condition, {
+    offset,
+    limit,
+    sort: { productPrice: 1, productPrice: -1 },
+  })
     .then((data) => {
       res.send({
         totalItems: data.totalDocs,
         products: data.docs,
         totalPages: data.totalPages,
         currentPage: data.page - 1,
+      });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Some error occurred while retrieving product.",
+      });
+    });
+};
+
+exports.recommandation = (req, res) => {
+  Product.find()
+    .then((data) => {
+      res.send({
+        data,
       });
     })
     .catch((err) => {
@@ -103,6 +160,33 @@ exports.findOne = (req, res) => {
         .status(500)
         .send({ message: "Error retrieving product with id=" + id });
     });
+};
+
+exports.filters = async (req, res) => {
+  var Prices = 0;
+  var brands = [];
+
+  Prices = await Product.aggregate([
+    {
+      $group: {
+        _id: 0,
+        MaximumValue: { $max: "$productPrice" },
+        MinimumValue: { $min: "$productPrice" },
+      },
+    },
+  ])
+  .catch((err) => {});
+
+  console.log(Prices);
+  brands = await Product.find()
+    .distinct("productBrand")
+    .catch((err) => {});
+  var filter = {
+    maxPrice: Prices[0].MaximumValue,
+    minPrice: Prices[0].MinimumValue,
+    brands: brands,
+  };
+  res.send(filter);
 };
 
 exports.update = (req, res) => {

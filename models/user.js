@@ -68,7 +68,7 @@ async function findUserbyEmail(email) {
 }
 
 async function findUserbyId(id) {
-  const user = await collection().findOne({ _id: id });
+  const user = await collection().findOne({ _id: id }).select("-image_url");
   return user;
 }
 

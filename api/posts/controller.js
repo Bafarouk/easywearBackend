@@ -1,11 +1,15 @@
 const posts = require("../../models/post");
 
 const addPost = async (req, res) => {
-  const post = await posts.insertOne(req.body);
-  if (post) {
-    return res.status(202).send(post);
+  try {
+    const post = await posts.insertOne(req.body);
+
+    if (post) {
+      return res.status(202).send(post);
+    }
+  } catch (e) {
+    return res.status(400).end();
   }
-  return res.status(400).end();
 };
 
 const getPosts = async (req, res) => {

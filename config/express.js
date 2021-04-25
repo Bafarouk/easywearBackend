@@ -28,7 +28,7 @@ function configure(app) {
   });
 
   /** prevent CORS failures for this test */
-  app.use(cors());
+  app.use(cors({ origin: "http://localhost:3000" }));
 
   /** Apidoc */
   app.use("/apidoc", express.static("apidoc"));

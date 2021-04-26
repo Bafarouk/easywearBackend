@@ -16,7 +16,8 @@ let amazonData = async () => {
       ".sg-col " &&
       ".sg-col-4-of-20"
   ).each((i, elem) => {
-    data.push({
+    const element = {
+      //  data.push({
       //title : $(elem).text()
       productBrand: $(elem).find("h5.s-line-clamp-1").children("span").text(),
       productName: $(elem)
@@ -37,12 +38,26 @@ let amazonData = async () => {
         .find("a.a-size-base " && ".a-link-normal " && ".a-text-normal")
         .children("span.a-price")
         .children("span.a-offscreen")
-        .text(),
+        .text().substring(0,),
       url: $(elem)
         .find("a.a-link-normal" && ".s-no-outline")
         .attr("href"),
       image_url: $(elem).find("img.s-image").attr("src"),
-    });
+    };
+    element.productPrice.indexOf(",") == 2
+      ? (element.productPrice =
+          "0" +
+          element.productPrice.substring(
+            0,
+            element.productPrice.indexOf(",") + 2
+          ))
+      : (element.productPrice = element.productPrice.substring(
+          0,
+          element.productPrice.indexOf(",") + 2
+        ));
+console.log(element.productPrice);
+    
+    data.push(element);
   });
   return data;
 };

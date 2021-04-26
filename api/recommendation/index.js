@@ -15,5 +15,9 @@ router.get("/updateSimilar", wrap(controller.updateSimilar));
 router.get("/updateSuggestion", wrap(controller.updateSuggestion));
 router.get("/getSuggestion", wrap(controller.getSuggestionByUserId));
 router.post("/rateItem", wrap(controller.rateItem));
+router.get(
+  "/getSuggestions/:user_id",
+  wrap(controller.getSuggestionByUserIdparam)
+);
 
 module.exports = router;

@@ -15,6 +15,7 @@ router.get("/updateSimilar", wrap(controller.updateSimilar));
 router.get("/updateSuggestion", wrap(controller.updateSuggestion));
 //this two methods below are what we will only need to make the recommendation system work
 router.get("/getSuggestion", wrap(controller.getSuggestionByUserId));
+
 router.post("/rateItem", wrap(controller.rateItem));
 
 module.exports = router;

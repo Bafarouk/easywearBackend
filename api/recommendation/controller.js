@@ -129,7 +129,18 @@ async function updateSuggestion(req, res) {
 
 async function getSuggestionByUserId(req, res) {
   console.log("get Suggestion by user id");
+  console.log(req.body);
   let suggestion = await Suggestion.findSuggestionbyUserId(req.body.user_id);
+  if (suggestion) {
+    res.send(suggestion);
+  } else {
+    res.send("Suggestion does not exist");
+  }
+}
+async function getSuggestionByUserIdparam(req, res) {
+  console.log("get Suggestion by user id");
+  console.log(req.body);
+  let suggestion = await Suggestion.findSuggestionbyUserId(req.params.user_id);
   if (suggestion) {
     res.send(suggestion);
   } else {
@@ -187,4 +198,5 @@ module.exports = {
   updateSuggestion,
   getSuggestionByUserId,
   rateItem,
+  getSuggestionByUserIdparam,
 };

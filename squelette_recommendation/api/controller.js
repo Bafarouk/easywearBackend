@@ -128,8 +128,9 @@ async function updateSuggestion(req, res) {
 }
 //this method will provide all the suggestion generated for the user
 async function getSuggestionByUserId(req, res) {
-  console.log("get Suggestion by user id");
+  console.log("testt" + req.body);
   let suggestion = await Suggestion.findSuggestionbyUserId(req.body.user_id);
+
   if (suggestion) {
     res.send(suggestion);
   } else {

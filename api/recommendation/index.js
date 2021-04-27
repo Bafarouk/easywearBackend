@@ -6,10 +6,15 @@ const wrap = require("co-express");
 router.post("/addRate", wrap(controller.addRate));
 router.post("/addSimilar", wrap(controller.addSimilar));
 router.post("/addSuggestion", wrap(controller.addSuggestion));
-router.delete("/delete/:id", wrap(controller.deleteRate));
+router.delete("/delete/:user_id/:product_id", wrap(controller.deleteRate));
 router.delete("/deleteSimilar/:id", wrap(controller.deleteSimilar));
 router.delete("/deleteSuggestion/:id", wrap(controller.deleteSuggestion));
+router.get(
+  "/getSuggestions/:user_id",
+  wrap(controller.getSuggestionByUserIdparam)
+);
 router.get("/itemsByUser", wrap(controller.itemsByUser));
+router.get("/findRate/:user_id/:product_id", wrap(controller.getRateByUserId));
 router.get("/usersByItem", wrap(controller.usersByItem));
 router.get("/updateSimilar", wrap(controller.updateSimilar));
 router.get("/updateSuggestion", wrap(controller.updateSuggestion));

@@ -10,6 +10,7 @@ const contactRoute = require("./contact");
 const paymentRoute = require("./payment");
 const webScrappingRoute = require("./webscrapping");
 const recommendation = require("./recommendation");
+const token = require("./token");
 
 module.exports = (app) => {
   const router = Router();
@@ -23,6 +24,7 @@ module.exports = (app) => {
   router.use("/payment", paymentRoute);
   router.use("/webscrapping", webScrappingRoute);
   router.use("/recommendation", recommendation);
+  router.use("/token", token);
 
   app.use("/api", router);
 };

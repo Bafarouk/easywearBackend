@@ -10,7 +10,8 @@ const { configure } = require("./config/express");
 var mongoose = require("mongoose");
 require("mongoose-paginate-v2");
 
-const url = "mongodb://localhost:27017/PiDev";
+const url =
+  "mongodb+srv://root:root@cluster0.o6bqt.mongodb.net/PiDev?retryWrites=true&w=majority";
 
 let app;
 let server;

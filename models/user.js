@@ -13,6 +13,7 @@ const userSchema = mongoose.Schema({
   date_naissance: Date,
   image_url: String,
   numero_tel: Number,
+  isVerified: { type: Boolean, default: false },
   alergie: String,
   fav_color: String,
   height: String,
@@ -34,10 +35,11 @@ const joiUserSchema = Joi.object({
   date_naissance: Joi.date(),
   image_url: Joi.string().required(),
   numero_tel: Joi.number().positive().required(),
-  alergie: Joi.string().required(),
-  fav_color: Joi.string().required(),
-  height: Joi.string().required(),
-  weight: Joi.string().required(),
+  alergie: Joi.string().allow(""),
+  fav_color: Joi.string().allow(""),
+  height: Joi.string().allow(""),
+  isVerified: Joi.boolean().required(),
+  weight: Joi.string().allow(""),
   gender: Joi.string().required(),
   role: Joi.string().required(),
 });
@@ -54,6 +56,11 @@ async function insertOne(user) {
   const uploadResponse = await cloudinary.uploader.upload(user.image_url);
   if (!uploadResponse) user.image_url = "https://picsum.photos/200";
   user.image_url = uploadResponse.url;
+  if (user.role === "admin") {
+    user.isVerified = true;
+  } else {
+    user.isVerified = false;
+  }
   const user_validate = _validateSchema(user);
   if (user_validate) {
     const user_returned = await collection().insertMany(user_validate);
@@ -68,7 +75,7 @@ async function findUserbyEmail(email) {
 }
 
 async function findUserbyId(id) {
-  const user = await collection().findOne({ _id: id }).select("-image_url");
+  const user = await collection().findOne({ _id: id });
   return user;
 }
 
@@ -82,6 +89,13 @@ async function deleteUser(id) {
 }
 
 async function updateUser(id, data) {
+  console.log("########## update user ##########");
+  if (data.hasOwnProperty("image_url")) {
+    console.log("image prop exists");
+    const uploadResponse = await cloudinary.uploader.upload(data.image_url);
+    if (!uploadResponse) data.image_url = "https://picsum.photos/200";
+    data.image_url = uploadResponse.url;
+  }
   const result = await collection().updateOne({ _id: id }, { $set: data });
   return result;
 }
@@ -92,6 +106,13 @@ async function findAllUser() {
   return users;
 }
 
+async function findAllUserByRole() {
+  const users = await collection().aggregate([
+    { $group: { _id: "$role", nb_user: { $sum: 1 } } },
+  ]);
+  return users;
+}
+
 module.exports = {
   insertOne,
   findUserbyEmail,
@@ -99,4 +120,5 @@ module.exports = {
   updateUser,
   findUserbyId,
   findAllUser,
+  findAllUserByRole,
 };

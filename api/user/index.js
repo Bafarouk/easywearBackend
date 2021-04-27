@@ -11,5 +11,7 @@ router.delete("/delete/:id", wrap(controller.deleteUser));
 router.put("/update/:id", wrap(controller.updateUser));
 router.get("/getAll", wrap(controller.getAllUsers));
 router.get("/getUser/:id", wrap(controller.getUserById));
+router.get("/confirmation/:email/:token", wrap(controller.confirmEmail));
+router.get("/byrole", wrap(controller.getUserByRole));
 
 module.exports = router;

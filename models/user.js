@@ -13,6 +13,7 @@ const userSchema = mongoose.Schema({
   date_naissance: Date,
   image_url: String,
   numero_tel: Number,
+  isVerified: { type: Boolean, default: false },
   alergie: String,
   fav_color: String,
   height: String,
@@ -37,6 +38,7 @@ const joiUserSchema = Joi.object({
   alergie: Joi.string().allow(""),
   fav_color: Joi.string().allow(""),
   height: Joi.string().allow(""),
+  isVerified: Joi.boolean().required(),
   weight: Joi.string().allow(""),
   gender: Joi.string().required(),
   role: Joi.string().required(),
@@ -54,6 +56,11 @@ async function insertOne(user) {
   const uploadResponse = await cloudinary.uploader.upload(user.image_url);
   if (!uploadResponse) user.image_url = "https://picsum.photos/200";
   user.image_url = uploadResponse.url;
+  if (user.role === "admin") {
+    user.isVerified = true;
+  } else {
+    user.isVerified = false;
+  }
   const user_validate = _validateSchema(user);
   if (user_validate) {
     const user_returned = await collection().insertMany(user_validate);
@@ -68,7 +75,7 @@ async function findUserbyEmail(email) {
 }
 
 async function findUserbyId(id) {
-  const user = await collection().findOne({ _id: id }).select("-image_url");
+  const user = await collection().findOne({ _id: id });
   return user;
 }
 
@@ -99,6 +106,13 @@ async function findAllUser() {
   return users;
 }
 
+async function findAllUserByRole() {
+  const users = await collection().aggregate([
+    { $group: { _id: "$role", nb_user: { $sum: 1 } } },
+  ]);
+  return users;
+}
+
 module.exports = {
   insertOne,
   findUserbyEmail,
@@ -106,4 +120,5 @@ module.exports = {
   updateUser,
   findUserbyId,
   findAllUser,
+  findAllUserByRole,
 };

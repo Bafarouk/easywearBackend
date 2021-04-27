@@ -139,7 +139,7 @@ async function updateUser(req, res) {
   if (user) {
     if (decoded.role === "admin" || user._id == decoded._id) {
       console.log("update");
-      console.log(user);
+      console.log(req.body);
       let user1 = await users.updateUser(user._id, req.body);
       console.log(user1);
       res.json(user1);

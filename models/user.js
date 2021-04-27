@@ -34,10 +34,10 @@ const joiUserSchema = Joi.object({
   date_naissance: Joi.date(),
   image_url: Joi.string().required(),
   numero_tel: Joi.number().positive().required(),
-  alergie: Joi.string().required(),
-  fav_color: Joi.string().required(),
-  height: Joi.string().required(),
-  weight: Joi.string().required(),
+  alergie: Joi.string().allow(""),
+  fav_color: Joi.string().allow(""),
+  height: Joi.string().allow(""),
+  weight: Joi.string().allow(""),
   gender: Joi.string().required(),
   role: Joi.string().required(),
 });
@@ -82,6 +82,13 @@ async function deleteUser(id) {
 }
 
 async function updateUser(id, data) {
+  console.log("########## update user ##########");
+  if (data.hasOwnProperty("image_url")) {
+    console.log("image prop exists");
+    const uploadResponse = await cloudinary.uploader.upload(data.image_url);
+    if (!uploadResponse) data.image_url = "https://picsum.photos/200";
+    data.image_url = uploadResponse.url;
+  }
   const result = await collection().updateOne({ _id: id }, { $set: data });
   return result;
 }

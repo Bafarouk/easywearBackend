@@ -4,11 +4,11 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { loadProducts } from "./../../redux/actions/ProductsActions";
 import { queryApi } from "../../utils/queryApi";
-import jwtDecode from "jwt-decode";
+//import jwtDecode from "jwt-decode";
 import RecommendedProductView from "./RecommendedProductView";
 
 class RecommendedProductsList extends Component {
-  jwtToken = localStorage.getItem("jwt");
+  //jwtToken = localStorage.getItem("jwt");
 
   componentDidMount() {
     /*queryApi(
@@ -31,12 +31,12 @@ class RecommendedProductsList extends Component {
       });
     });*/
     this.loadProducts();
-    //    this.loadRecommendedProducts();
+    this.loadRecommendedProducts();
   }
 
   constructor(props) {
     super(props);
-    const user = jwtDecode(this.jwtToken);
+    const user = null; // jwtDecode(this.jwtToken);
 
     this.state = {
       suggestedproducts: [],
@@ -50,28 +50,32 @@ class RecommendedProductsList extends Component {
     this.setState({ products: res });
   };
 
-  /*  loadRecommendedProducts = async () => {
-    const [res, err] = await queryApi(
-      "recommendation/getSuggestions/" + this.state.connectedUser._id,
-      {},
-      "GET"
-    );
-    const { products, actions } = this.props;
-
-    //actions.loadProducts();
-
-    let recommendedResponse = [];
-    // console.log(this.state.products[0].id);
-    res.suggestion?.forEach((element) => {
-      recommendedResponse.push(
-        this.state.products.find((prod) => prod?.id === element?.product_id)
+  loadRecommendedProducts = async () => {
+    if (this.state.connectedUser) {
+      const [res, err] = await queryApi(
+        "recommendation/getSuggestions/" + this.state.connectedUser._id,
+        {},
+        "GET"
       );
-    });
-    this.setState({ suggestedproducts: recommendedResponse });
-    if (err) {
+      const { products, actions } = this.props;
+
+      //actions.loadProducts();
+
+      let recommendedResponse = [];
+      // console.log(this.state.products[0].id);
+      res.suggestion?.forEach((element) => {
+        recommendedResponse.push(
+          this.state.products.find((prod) => prod?.id === element?.product_id)
+        );
+      });
+      this.setState({ suggestedproducts: recommendedResponse });
+      if (err) {
+        this.setState({ suggestedproducts: [] });
+      }
+    } else {
       this.setState({ suggestedproducts: [] });
     }
-  }; */
+  };
 
   render() {
     return (

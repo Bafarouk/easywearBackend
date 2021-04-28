@@ -34,7 +34,7 @@ const Test = (props) => {
   }, []);
 
   var width = 1000;
-  var height = 700;
+  var height = 1000;
   camera = new THREE.PerspectiveCamera(60, width / height, 1, 2100);
   camera.position.z = 115;
 

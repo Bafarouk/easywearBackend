@@ -12,13 +12,13 @@ import ProductView from "./productView";
 import { Link } from "react-router-dom";
 
 class ProductDetails extends Component {
-  jwtToken = localStorage.getItem("jwt");
+  //jwtToken = localStorage.getItem("jwt");
 
   async componentDidMount() {
-    if (this.jwtToken) {
+    /*  if (this.jwtToken) {
       this.setState({ connectedUser: jwtDecode(this.jwtToken) });
-    }
-    await this.loadRateByUserId();
+    } */
+    //    await this.loadRateByUserId();
     await this.loadSimilarProducts();
   }
   constructor(props) {
@@ -30,7 +30,7 @@ class ProductDetails extends Component {
     const prodDetail = props["products"].products.find(
       (p) => p.id === props.match.params.id
     );
-    const user = jwtDecode(this.jwtToken);
+    const user = null; /* jwtDecode(this.jwtToken); */
     this.state = {
       prodDetail: prodDetail,
       connectedUser: user,

@@ -115,7 +115,7 @@ const EditProfileForm = (props) => {
     } else {
       dispatch(updateUser(res));
       console.log("user updated");
-      props.history.push("/user/profile");
+      props.history.push("/user/userProfile");
       // window.location = "/user/profile";
     }
   }

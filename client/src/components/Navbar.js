@@ -1,8 +1,15 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import Contact from "./Contact";
+import jwtDecode from "jwt-decode";
 
 const Navbar = () => {
+  let user;
+  const jwtToken = localStorage.getItem("jwt");
+  if (jwtToken) {
+    // Set auth token header auth
+    user = jwtDecode(jwtToken); // Decode token and get user info and exp
+  }
   return (
     <>
       {/* header start */}
@@ -33,20 +40,34 @@ const Navbar = () => {
                     <i className="fa fa-user" aria-hidden="true" />
                     My Account
                     <ul className="onhover-show-div">
-                      <li>
-                        <Link to="auth/login">Login</Link>
-                      </li>
-                      <li>
-                        <a
-                          href="#"
-                          onClick={() => {
-                            localStorage.removeItem("jwt");
-                            window.location = "/auth/login";
-                          }}
-                        >
-                          Logout
-                        </a>
-                      </li>
+                      {!user && (
+                        <li>
+                          <Link to="auth/login">Login</Link>
+                        </li>
+                      )}{" "}
+                      {!user && (
+                        <li>
+                          <Link to="auth/register">Register</Link>
+                        </li>
+                      )}
+                      {user && (
+                        <li>
+                          <Link to="user/userProfile">Profile</Link>
+                        </li>
+                      )}
+                      {user && (
+                        <li>
+                          <a
+                            href="#"
+                            onClick={() => {
+                              localStorage.removeItem("jwt");
+                              window.location = "/auth/login";
+                            }}
+                          >
+                            Logout
+                          </a>
+                        </li>
+                      )}
                     </ul>
                   </li>
                 </ul>
@@ -375,16 +396,6 @@ const Navbar = () => {
                         <li>{<Link to="/products">Products</Link>}</li>
                         <li>{<Link to="/3D">3D</Link>}</li>
                         <li>{<Link to="/getSize">Size</Link>}</li>
-
-                        <li>{<Link to="/event">Events</Link>}</li>
-                        <li>
-                          <a href="fakeNav">Claims</a>
-                        </li>
-                        <li>{<Link to="/contact">Contact</Link>}</li>
-                        <li>{<Link to="/about">About</Link>}</li>
-                        <li>{<Link to="/products">Products</Link>}</li>
-                        <li>{<Link to="/3D">3D</Link>}</li>
-
                         <li>{<Link to="/event">Events</Link>}</li>
                       </ul>
                     </nav>

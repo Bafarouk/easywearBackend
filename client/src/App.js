@@ -34,12 +34,9 @@ import EditUserForm from "./components/BackOffice/EditUserForm";
 import AddUserForm from "./components/BackOffice/AddUserForm";
 import Load from "./components/load";
 import BodyDetection from "./components/3D/bodyDetection";
-
-import CheckEmail from "./components/auth/checkEmail";
-import EmailVerified from "./components/auth/emailVerified";
-import GetSize from "./components/3D/size";
-
 import ProductDetails from "./components/Products/ProductDetails";
+import UserProfile from "./components/User/userprofile";
+import GetSize from "./components/3D/size";
 
 function App() {
   const [connectedUser, setConnectedUser] = useState(null);
@@ -52,7 +49,6 @@ function App() {
       setConnectedUser(jwtDecode(localStorage.getItem("jwt"))); // Decode token and get user info and exp
     }
   }, []);
-
   function handleLoggedIn(user) {
     setConnectedUser(user);
   }
@@ -60,21 +56,21 @@ function App() {
   return (
     <>
       {(() => {
-        if (!test) {
+        if (connectedUser && connectedUser.role === "admin") {
           return (
             <>
               <UserContext.Provider value={[connectedUser, setConnectedUser]}>
                 <NavbarBack></NavbarBack>
                 <SideBar></SideBar>
                 <Switch>
-                  <Route path='/ClaimsBack' component={ClaimBack} />
-                  <Route path='/UsersBack' component={UserBack} />
-                  <Route path='/editUserBack' component={EditUserForm} />
-                  <Route path='/addUserBack' component={AddUserForm} />
-                  <Route path='/Products' component={Products} />
-                  <Route path='/Events' component={Events} />
-                  <Route path='/Contacts' component={Contacts} />
-                  <Route exact to='/' component={DashBoard} />
+                  <Route path="/ClaimsBack" component={ClaimBack} />
+                  <Route path="/UsersBack" component={UserBack} />
+                  <Route path="/editUserBack" component={EditUserForm} />
+                  <Route path="/addUserBack" component={AddUserForm} />
+                  <Route path="/Products" component={Products} />
+                  <Route path="/Events" component={Events} />
+                  <Route path="/Contacts" component={Contacts} />
+                  <Route exact to="/" component={DashBoard} />
                 </Switch>
                 <FooterBack></FooterBack>
               </UserContext.Provider>
@@ -94,42 +90,37 @@ function App() {
               >
                 <Navbar></Navbar>
                 <Switch>
-                  <Route path='/auth/login' component={LoginForm} />
-                  <Route path='/auth/register' component={RegisterForm} />
+                  <Route path="/auth/login" component={LoginForm} />
+                  <Route path="/auth/register" component={RegisterForm} />
+                  <Route path="/user/userProfile" component={UserProfile} />
                   <Route
-                    path='/user/editprofile/:id'
+                    path="/user/editprofile/:id"
                     component={EditProfileForm}
                   />
-                  <Route path='/checkEmail' component={CheckEmail} />
-                  <Route path='/emailVerified' component={EmailVerified} />
-                  <Route path='/about' component={About} />
-                  <Route path='/contact' component={Contact} />
-                  <Route path='/user/profile' component={Profile} />
-
-                  <Route path='/Products' component={ProductLists} />
+                  <Route path="/about" component={About} />
+                  <Route path="/contact" component={Contact} />
+                  <Route path="/user/profile" component={Profile} />
+                  <Route path="/Products" component={ProductLists} />
                   <Route
-                    path='/ProductDetails/:id'
+                    path="/ProductDetails/:id"
                     component={ProductDetails}
                   />
-
-                  <Route path='/GetSize' component={GetSize} />
-                  <Route path='/3D/:imgurl' component={BodyDetection} />
-                  <Route path='/3D' component={BodyDetection} />
-                  <Route path='/event/addPost/:id' component={AddPostForm} />
-                  <Route path='/event/post/:id' component={PostDetails} />
+                  <Route path="/GetSize" component={GetSize} />
+                  <Route path="/3D" component={BodyDetection} />
+                  <Route path="/event/addPost/:id" component={AddPostForm} />
+                  <Route path="/event/post/:id" component={PostDetails} />
+                  <Route path="/3D/:imgurl" component={BodyDetection} />
 
                   <Route
-                    path='/event/updatePost/:id'
+                    path="/event/updatePost/:id"
                     component={UpdatePostForm}
                   />
-
-                  <Route path='/event' component={HomeEvent} />
+                  <Route path="/event" component={HomeEvent} />
                   <Route
-                    path='/eventDetails/:eventId'
+                    path="/eventDetails/:eventId"
                     component={eventWithId}
                   />
-
-                  <Route exact to='/' component={Home} />
+                  <Route exact to="/" component={Home} />
                 </Switch>
                 <Footer />
               </UserContext.Provider>

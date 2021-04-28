@@ -2,6 +2,7 @@ var createError = require("http-errors");
 const http = require("http");
 var express = require("express");
 const co = require("co");
+const PORT = process.env.PORT || 3100;
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("chpr-logger");
@@ -47,8 +48,14 @@ async function start() {
   require("./api/product/index")(app);
   require("./api/comment/index")(app);
   require("./api/reaction/index")(app);
-
-  await server.listen(app.get("port"));
+  if (process.env.NODE_ENV == "production") {
+    app.use(express.static('client/build'));
+    const path = require('path');
+    app.get("*", (req, res) => {
+      res.sendFile(path.resolve(__dirname,'client','build','index.html'))
+    })
+}
+  await server.listen(PORT);
 
   logger.info(
     {

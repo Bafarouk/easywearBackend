@@ -5,7 +5,7 @@ const co = require("co");
 const PORT = process.env.PORT || 3100;
 var path = require("path");
 var cookieParser = require("cookie-parser");
-var logger = require("chpr-logger");
+//var logger = require("chpr-logger");
 const { configure } = require("./config/express");
 
 var mongoose = require("mongoose");
@@ -41,7 +41,7 @@ async function start() {
   if (app) {
     return app;
   }
-  logger.info("Express web server creation");
+  //logger.info("Express web server creation");
   app = configure(express());
   server = http.createServer(app);
 
@@ -57,13 +57,13 @@ async function start() {
 }
   await server.listen(PORT);
 
-  logger.info(
-    {
-      port: server.address().port,
-      environment: process.env.NODE_ENV,
-    },
-    "✔ Server running"
-  );
+  //logger.info(
+    //{
+    //  port: server.address().port,
+    //  environment: process.env.NODE_ENV,
+   // },
+   // "✔ Server running"
+  //);
 
   return app;
 }

@@ -9,6 +9,7 @@ var cookieParser = require("cookie-parser");
 const { configure } = require("./config/express");
 
 var mongoose = require("mongoose");
+const { port } = require("./config");
 require("mongoose-paginate-v2");
 
 const url =
@@ -26,6 +27,7 @@ mongo.on("connected", () => {
 });
 mongo.on("open", () => {
   console.log("connexion etablie");
+  console.log(PORT);
 });
 
 mongo.on("error", (err) => {

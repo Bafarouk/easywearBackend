@@ -9,7 +9,7 @@
             "type": "pwa-chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "http://localhost:3000",
+            "url": "https://secure-ocean-54413.herokuapp.com/",
             "webRoot": "${workspaceFolder}"
         }
     ]

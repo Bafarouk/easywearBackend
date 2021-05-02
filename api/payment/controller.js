@@ -7,7 +7,7 @@ module.exports = {
 };
 
 async function pay(req, res) {
-  console.log("pay method called");
+  console.log("pay method called ");
   console.log(req.body);
   const create_payment_json = {
     intent: "sale",
@@ -50,8 +50,14 @@ async function pay(req, res) {
         if (payment.links[i].rel === "approval_url") {
           //res.redirect(payment.links[i].href);
           tempTotal = 15;
+          product_id = req.body.product_id;
           res.json({
-            forwardLink: payment.links[i].href + "&total=" + tempTotal,
+            forwardLink:
+              payment.links[i].href +
+              "&total=" +
+              tempTotal +
+              "&product=" +
+              product_id,
           });
         }
       }
@@ -66,6 +72,8 @@ async function success(req, res) {
   console.log(req.body);
   console.log("req query");
   console.log(tempTotal);
+  console.log("product id###");
+  console.log(product_id);
   const execute_payment_json = {
     payer_id: payerId,
     transactions: [

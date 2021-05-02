@@ -69,6 +69,18 @@ async function insertOne(user) {
   return null;
 }
 
+async function insertOneFromGoogle(user) {
+  user.image_url = user.picture;
+  user.isVerified = true;
+  user.last_name = user.family_name;
+  user.first_name = user.given_name;
+  user.role = "user";
+  user.date_creation = dateReaction.getDate();
+
+  const user_returned = await collection().insertMany(user);
+  return user_returned;
+}
+
 async function findUserbyEmail(email) {
   const user = await collection().findOne({ email: email });
   return user;
@@ -121,4 +133,5 @@ module.exports = {
   findUserbyId,
   findAllUser,
   findAllUserByRole,
+  insertOneFromGoogle,
 };

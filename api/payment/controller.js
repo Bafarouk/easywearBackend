@@ -39,7 +39,7 @@ async function pay(req, res) {
           total: 15,
         },
         description: "This item when purchased will add $5.00 to your balance",
-        custom: 1,
+        custom: req.body.user_id,
       },
     ],
   };
@@ -106,7 +106,7 @@ async function success(req, res) {
         console.log(payment.transactions[0].amount.total);
         const userId = payment.transactions[0].custom;
         const total = Number(payment.transactions[0].amount.total);
-        userService.updateBalance(userId, total);
+        // userService.updateBalance(userId, total);
         /* let historyy;
         historyy.transactionType="credit";
         historyy.amount=1500;
@@ -131,5 +131,5 @@ async function success(req, res) {
 }
 
 async function cancel(req, res) {
-  res.send("Cancelled");
+  res.redirect("http://localhost:3000/user/profile");
 }

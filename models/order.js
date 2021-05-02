@@ -18,6 +18,7 @@ const order = mongoose.Schema({
 const joiOrderSchema = Joi.object({
   _id: Joi.objectId(),
   reference: Joi.string().required(),
+  total: Joi.number().positive().required(),
   date_creation: Joi.date().default(
     () => dateReaction.getDate(),
     "date of creation"
@@ -54,12 +55,7 @@ async function findItemsByUser(userId, orderType) {
 }
 
 async function findItemsByUserId(userId) {
-  const orders = await collection().find(
-    {
-      user_id: userId,
-    },
-    { _id: 0, product_id: 1 }
-  );
+  const orders = await collection().find({ user_id: userId });
   return orders;
 }
 

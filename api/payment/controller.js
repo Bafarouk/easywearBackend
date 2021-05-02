@@ -1,4 +1,6 @@
 ﻿const paypal = require("paypal-rest-sdk");
+const order = require("../../models/order");
+const dateReaction = require("../../lib/date");
 
 module.exports = {
   pay,
@@ -68,6 +70,7 @@ async function pay(req, res) {
 async function success(req, res) {
   const payerId = req.query.PayerID;
   const paymentId = req.query.paymentId;
+  const prodid = product_id;
   console.log("success method");
   console.log(req.body);
   console.log("req query");
@@ -99,26 +102,29 @@ async function success(req, res) {
         console.log(error.response);
         throw error;
       } else {
-        /*  console.log('after adding balance');
-        console.log( payment.transactions[0].amount.total);
-        const userId=payment.transactions[0].custom;
-        const total=Number(payment.transactions[0].amount.total);
-        userService.updateBalance(userId,total); */
+        console.log("after adding balance");
+        console.log(payment.transactions[0].amount.total);
+        const userId = payment.transactions[0].custom;
+        const total = Number(payment.transactions[0].amount.total);
+        userService.updateBalance(userId, total);
         /* let historyy;
         historyy.transactionType="credit";
         historyy.amount=1500;
         historyy.id_user=1;
         historyy.date='12-12-2020';
         historyService.create(historyy); */
-        /*      const his={
-            transactionType:"credit",
-            amount:total,
-            id_user:userId,
-            date:"12-12-2020"
+        const orderInfo = {
+          reference: paymentId,
+          total: total,
+          user_id: userId,
+          product_id: prodid,
+          date_creation: dateReaction.getDate(),
         };
-        historyService.create(his); */
+        order.insertOne(orderInfo).then((data) => {
+          console.log(data);
+          res.redirect("http://localhost:3000/user/profile");
+        });
         //console.log(JSON.stringify(payment));
-        res.redirect("http://localhost:3000/user/profile");
       }
     }
   );

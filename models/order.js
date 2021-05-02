@@ -55,7 +55,17 @@ async function findItemsByUser(userId, orderType) {
 }
 
 async function findItemsByUserId(userId) {
-  const orders = await collection().find({ user_id: userId });
+  //const orders = await collection().find({ user_id: userId });
+  const orders = await collection().aggregate([
+    {
+      $lookup: {
+        from: "products",
+        localField: "product_id",
+        foreignField: "_id",
+        as: "products",
+      },
+    },
+  ]);
   return orders;
 }
 

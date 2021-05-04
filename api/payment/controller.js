@@ -89,11 +89,6 @@ async function success(req, res) {
     ],
   };
 
-  /*    let user=userService.getById(1).subscribe();
-    console.log("#######"+user)
-    let bal=user.balance;
-        user.balance=20+bal; */
-
   paypal.payment.execute(
     paymentId,
     execute_payment_json,

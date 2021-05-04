@@ -28,7 +28,8 @@ function configure(app) {
   });
 
   /** prevent CORS failures for this test */
-  app.use(cors({ origin: "http://localhost:3000" }));
+   //app.use(cors({ origin: "https://secure-ocean-54413.herokuapp.com/" }));
+  //  app.use(cors());
 
   /** Apidoc */
   app.use("/apidoc", express.static("apidoc"));

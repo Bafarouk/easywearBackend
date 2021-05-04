@@ -2,12 +2,14 @@ var createError = require("http-errors");
 const http = require("http");
 var express = require("express");
 const co = require("co");
+const PORT = process.env.PORT || 3100;
 var path = require("path");
 var cookieParser = require("cookie-parser");
-var logger = require("chpr-logger");
+//var logger = require("chpr-logger");
 const { configure } = require("./config/express");
 
 var mongoose = require("mongoose");
+const { port } = require("./config");
 require("mongoose-paginate-v2");
 
 const url =
@@ -25,6 +27,7 @@ mongo.on("connected", () => {
 });
 mongo.on("open", () => {
   console.log("connexion etablie");
+  console.log(PORT);
 });
 
 mongo.on("error", (err) => {
@@ -40,23 +43,29 @@ async function start() {
   if (app) {
     return app;
   }
-  logger.info("Express web server creation");
+  //logger.info("Express web server creation");
   app = configure(express());
   server = http.createServer(app);
 
   require("./api/product/index")(app);
   require("./api/comment/index")(app);
   require("./api/reaction/index")(app);
+  if (process.env.NODE_ENV == "production") {
+    app.use(express.static('client/build'));
+    const path = require('path');
+    app.get("*", (req, res) => {
+      res.sendFile(path.resolve(__dirname,'client','build','index.html'))
+    })
+}
+  await server.listen(PORT);
 
-  await server.listen(app.get("port"));
-
-  logger.info(
-    {
-      port: server.address().port,
-      environment: process.env.NODE_ENV,
-    },
-    "✔ Server running"
-  );
+  //logger.info(
+    //{
+    //  port: server.address().port,
+    //  environment: process.env.NODE_ENV,
+   // },
+   // "✔ Server running"
+  //);
 
   return app;
 }

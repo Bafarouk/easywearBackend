@@ -14,8 +14,8 @@ const GOOGLE_CLIENT_ID =
   "846806384630-gt5esirbb89neaf5grerprki5kklr6cn.apps.googleusercontent.com";
 const GOOGLE_CLIENT_SECRET =
   process.env.GOOGLE_CLIENT_SECRET || "9evm0DPox6YfYiXVZvFSDFd4";
-const SERVER_ROOT_URI = "http://localhost:3100";
-const UI_ROOT_URI = "http://localhost:3000";
+const SERVER_ROOT_URI = "https://secure-ocean-54413.herokuapp.com";
+const UI_ROOT_URI = "https://secure-ocean-54413.herokuapp.com";
 const JWT_SECRET = "shhhhh";
 const COOKIE_NAME = "auth_token";
 
@@ -99,7 +99,7 @@ async function addUser(req, res) {
                                     <a href="https://courses.edx.org/?utm_medium=email&amp;utm_campaign=accountactivation&amp;utm_content=31901e37-c18a-40b0-b443-a7f9a4bcaea9&amp;utm_source=student" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://courses.edx.org/?utm_medium%3Demail%26utm_campaign%3Daccountactivation%26utm_content%3D31901e37-c18a-40b0-b443-a7f9a4bcaea9%26utm_source%3Dstudent&amp;source=gmail&amp;ust=1587656567992000&amp;usg=AFQjCNEgVnZgj0ixAa6bmQ0RYQUYr1H6OA"><img src="http://res.cloudinary.com/cloudinaryforupload/image/upload/v1619547091/ri8o8g7crodvnz5zay1c.png" width="70" height="50" alt="" class="CToWUd"></a>
                                 </td>
                                 <td align="right" style="text-align:right">
-                                    <a href="http://localhost:3000/auth/login" style="color:#005686" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://courses.edx.org/?utm_medium%3Demail%26utm_campaign%3Daccountactivation%26utm_content%3D31901e37-c18a-40b0-b443-a7f9a4bcaea9%26utm_source%3Dstudent&amp;source=gmail&amp;ust=1587656567992000&amp;usg=AFQjCNEgVnZgj0ixAa6bmQ0RYQUYr1H6OA">Login
+                                    <a href="https://secure-ocean-54413.herokuapp.com/auth/login" style="color:#005686" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://courses.edx.org/?utm_medium%3Demail%26utm_campaign%3Daccountactivation%26utm_content%3D31901e37-c18a-40b0-b443-a7f9a4bcaea9%26utm_source%3Dstudent&amp;source=gmail&amp;ust=1587656567992000&amp;usg=AFQjCNEgVnZgj0ixAa6bmQ0RYQUYr1H6OA">Login
                                     </a>
                                 </td>
                             </tr>
@@ -164,7 +164,7 @@ async function addUser(req, res) {
                                 <td>
                                     <p style="color:rgba(0,0,0,.75)">
     
-                                    This email was sent automatically by <a href ="http://localhost:3000" target="_ blank" data-saferedirecturl="https://www.google.com/url?q=https://courses.edx.org&amp;source=gmail&amp;ust=1587656567992000&amp;usg=AFQjCNHHaf6ONTDQYaAc07EJolFLX0Wtcg"> <span class="il"> EasyWear </span> </a> because someone tried to create an account on EasyWear using this email address.
+                                    This email was sent automatically by <a href ="https://secure-ocean-54413.herokuapp.com" target="_ blank" data-saferedirecturl="https://www.google.com/url?q=https://courses.edx.org&amp;source=gmail&amp;ust=1587656567992000&amp;usg=AFQjCNHHaf6ONTDQYaAc07EJolFLX0Wtcg"> <span class="il"> EasyWear </span> </a> because someone tried to create an account on EasyWear using this email address.
     
                                         <br>
                                     </p>
@@ -209,7 +209,7 @@ async function addUser(req, res) {
                             <tr>
     
                                 <td>
-                                    © 2020 <span class="il">Velo</span>, All rights reserved.<br>
+                                    © 2020 <span class="il">EasyWear</span>, All rights reserved.<br>
                                     <br>
                                     Our e-mail: pidevtest2020@gmail.com<br>
     
@@ -437,7 +437,9 @@ async function confirmEmail(req, res) {
         }
         // account successfully verified
         else {
-          return res.redirect("http://localhost:3000/emailVerified");
+          return res.redirect(
+            "https://secure-ocean-54413.herokuapp.com/emailVerified"
+          );
         }
       });
     }

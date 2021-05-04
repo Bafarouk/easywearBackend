@@ -17,8 +17,9 @@ async function pay(req, res) {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: "http://localhost:3100/api/payment/success",
-      cancel_url: "http://localhost:3100/api/payment/cancel",
+      return_url:
+        "https://secure-ocean-54413.herokuapp.com/api/payment/success",
+      cancel_url: "https://secure-ocean-54413.herokuapp.com/api/payment/cancel",
     },
     transactions: [
       {
@@ -111,7 +112,7 @@ async function success(req, res) {
         };
         order.insertOne(orderInfo).then((data) => {
           console.log(data);
-          res.redirect("http://localhost:3000/user/profile");
+          res.redirect("https://secure-ocean-54413.herokuapp.com/user/profile");
         });
         //console.log(JSON.stringify(payment));
       }
@@ -120,5 +121,5 @@ async function success(req, res) {
 }
 
 async function cancel(req, res) {
-  res.redirect("http://localhost:3000/user/profile");
+  res.redirect("https://secure-ocean-54413.herokuapp.com/user/profile");
 }

@@ -27,7 +27,7 @@ async function pay(req, res) {
             {
               name: "Balance",
               sku: "001",
-              price: 15,
+              price: req.body.price,
               currency: "USD",
               quantity: 1,
               /* user_id: 55 */
@@ -36,7 +36,7 @@ async function pay(req, res) {
         },
         amount: {
           currency: "USD",
-          total: 15,
+          total: req.body.price,
         },
         description: "This item when purchased will add $5.00 to your balance",
         custom: req.body.user_id,
@@ -51,7 +51,7 @@ async function pay(req, res) {
       for (let i = 0; i < payment.links.length; i++) {
         if (payment.links[i].rel === "approval_url") {
           //res.redirect(payment.links[i].href);
-          tempTotal = 15;
+          tempTotal = req.body.price;
           product_id = req.body.product_id;
           res.json({
             forwardLink:

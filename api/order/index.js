@@ -6,5 +6,6 @@ const wrap = require("co-express");
 
 router.get("/getOrders", wrap(controller.getOrdersByUserId));
 router.get("/cancel", wrap(controller.cancel));
+router.delete("/deleteOrder/:id", wrap(controller.deleteOrder));
 
 module.exports = router;

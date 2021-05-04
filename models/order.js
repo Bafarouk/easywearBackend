@@ -35,10 +35,9 @@ function _validateSchema(order) {
   return Joi.attempt(order, joiOrderSchema);
 }
 
-async function findOrderbyId(id, product_id) {
+async function findOrderbyId(id) {
   const order = await collection().findOne({
-    user_id: id,
-    product_id: product_id,
+    _id: id,
   });
   return order;
 }
@@ -96,10 +95,9 @@ async function insertOne(order) {
   return null;
 }
 
-async function deleteOrder(user_id, product_id) {
+async function deleteOrder(order_id) {
   const order = await collection().findOne({
-    user_id: user_id,
-    product_id: product_id,
+    _id: order_id,
   });
   console.log("Order to delete");
   console.log(order);

@@ -99,8 +99,8 @@ async function deleteOrder(order_id) {
   const order = await collection().findOne({
     _id: order_id,
   });
-  console.log("Order to delete");
-  console.log(order);
+  /*   console.log("Order to delete");
+  console.log(order); */
   if (order) {
     await collection().deleteOne({ _id: order._id });
     return true;

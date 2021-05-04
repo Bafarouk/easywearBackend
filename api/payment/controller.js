@@ -101,13 +101,7 @@ async function success(req, res) {
         console.log(payment.transactions[0].amount.total);
         const userId = payment.transactions[0].custom;
         const total = Number(payment.transactions[0].amount.total);
-        // userService.updateBalance(userId, total);
-        /* let historyy;
-        historyy.transactionType="credit";
-        historyy.amount=1500;
-        historyy.id_user=1;
-        historyy.date='12-12-2020';
-        historyService.create(historyy); */
+
         const orderInfo = {
           reference: paymentId,
           total: total,

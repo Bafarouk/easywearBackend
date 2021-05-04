@@ -38,6 +38,7 @@
     "passport-local": "^1.0.0",
     "paypal-rest-sdk": "^1.8.1",
     "puppeteer": "^8.0.0",
+    "querystring": "^0.2.1",
     "request": "^2.88.2",
     "request-promise": "^4.2.4",
     "request-promise-core": "^1.1.2",

@@ -71,12 +71,12 @@ async function success(req, res) {
   const payerId = req.query.PayerID;
   const paymentId = req.query.paymentId;
   const prodid = product_id;
-  console.log("success method");
+  /*  console.log("success method");
   console.log(req.body);
   console.log("req query");
   console.log(tempTotal);
   console.log("product id###");
-  console.log(product_id);
+  console.log(product_id); */
   const execute_payment_json = {
     payer_id: payerId,
     transactions: [

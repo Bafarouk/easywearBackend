@@ -1,4 +1,6 @@
 ﻿const paypal = require("paypal-rest-sdk");
+const order = require("../../models/order");
+const dateReaction = require("../../lib/date");
 
 module.exports = {
   pay,
@@ -7,7 +9,7 @@ module.exports = {
 };
 
 async function pay(req, res) {
-  console.log("pay method called");
+  console.log("pay method called ");
   console.log(req.body);
   const create_payment_json = {
     intent: "sale",
@@ -16,9 +18,8 @@ async function pay(req, res) {
     },
     redirect_urls: {
       return_url:
-        "https://secure-ocean-54413.herokuapp.com//api/payment/success",
-      cancel_url:
-        "https://secure-ocean-54413.herokuapp.com//api/payment/cancel",
+        "https://secure-ocean-54413.herokuapp.com/api/payment/success",
+      cancel_url: "https://secure-ocean-54413.herokuapp.com/api/payment/cancel",
     },
     transactions: [
       {
@@ -27,7 +28,7 @@ async function pay(req, res) {
             {
               name: "Balance",
               sku: "001",
-              price: 15,
+              price: req.body.price,
               currency: "USD",
               quantity: 1,
               /* user_id: 55 */
@@ -36,10 +37,10 @@ async function pay(req, res) {
         },
         amount: {
           currency: "USD",
-          total: 15,
+          total: req.body.price,
         },
         description: "This item when purchased will add $5.00 to your balance",
-        custom: 1,
+        custom: req.body.user_id,
       },
     ],
   };
@@ -51,9 +52,15 @@ async function pay(req, res) {
       for (let i = 0; i < payment.links.length; i++) {
         if (payment.links[i].rel === "approval_url") {
           //res.redirect(payment.links[i].href);
-          tempTotal = 15;
+          tempTotal = req.body.price;
+          product_id = req.body.product_id;
           res.json({
-            forwardLink: payment.links[i].href + "&total=" + tempTotal,
+            forwardLink:
+              payment.links[i].href +
+              "&total=" +
+              tempTotal +
+              "&product=" +
+              product_id,
           });
         }
       }
@@ -64,10 +71,13 @@ async function pay(req, res) {
 async function success(req, res) {
   const payerId = req.query.PayerID;
   const paymentId = req.query.paymentId;
-  console.log("success method");
+  const prodid = product_id;
+  /*  console.log("success method");
   console.log(req.body);
   console.log("req query");
   console.log(tempTotal);
+  console.log("product id###");
+  console.log(product_id); */
   const execute_payment_json = {
     payer_id: payerId,
     transactions: [
@@ -80,11 +90,6 @@ async function success(req, res) {
     ],
   };
 
-  /*    let user=userService.getById(1).subscribe();
-    console.log("#######"+user)
-    let bal=user.balance;
-        user.balance=20+bal; */
-
   paypal.payment.execute(
     paymentId,
     execute_payment_json,
@@ -93,31 +98,28 @@ async function success(req, res) {
         console.log(error.response);
         throw error;
       } else {
-        /*  console.log('after adding balance');
-        console.log( payment.transactions[0].amount.total);
-        const userId=payment.transactions[0].custom;
-        const total=Number(payment.transactions[0].amount.total);
-        userService.updateBalance(userId,total); */
-        /* let historyy;
-        historyy.transactionType="credit";
-        historyy.amount=1500;
-        historyy.id_user=1;
-        historyy.date='12-12-2020';
-        historyService.create(historyy); */
-        /*      const his={
-            transactionType:"credit",
-            amount:total,
-            id_user:userId,
-            date:"12-12-2020"
+        console.log("after adding balance");
+        console.log(payment.transactions[0].amount.total);
+        const userId = payment.transactions[0].custom;
+        const total = Number(payment.transactions[0].amount.total);
+
+        const orderInfo = {
+          reference: paymentId,
+          total: total,
+          user_id: userId,
+          product_id: prodid,
+          date_creation: dateReaction.getDate(),
         };
-        historyService.create(his); */
+        order.insertOne(orderInfo).then((data) => {
+          console.log(data);
+          res.redirect("https://secure-ocean-54413.herokuapp.com/user/profile");
+        });
         //console.log(JSON.stringify(payment));
-        res.redirect("https://secure-ocean-54413.herokuapp.com//user/profile");
       }
     }
   );
 }
 
 async function cancel(req, res) {
-  res.send("Cancelled");
+  res.redirect("https://secure-ocean-54413.herokuapp.com/user/profile");
 }

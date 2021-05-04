@@ -160,8 +160,8 @@ async function rateItem(req, res) {
           console.log(
             "############################# update Suggestion ############################"
           );
-          console.log(suggestion);
-          res.send(suggestion);
+          /*           console.log(suggestion);
+           */ res.send(suggestion);
         } else {
           res.send("Suggestion update does not exist");
         }

@@ -51,7 +51,7 @@ async function pay(req, res) {
       for (let i = 0; i < payment.links.length; i++) {
         if (payment.links[i].rel === "approval_url") {
           //res.redirect(payment.links[i].href);
-          tempTotal = 15;
+          tempTotal = req.body.price;
           product_id = req.body.product_id;
           res.json({
             forwardLink:

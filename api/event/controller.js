@@ -18,8 +18,8 @@ async function addEvent(req,res){
 }
 
 async function deleteEvent(req,res){
-    let event_name = req.query.event_name;
-    const event = await events.deleteOneByEventName(event_name);
+    let id = req.params.id;
+    const event = await events.deleteOneByEventName(id);
     if(event){
         return res.status(200).send();
     }

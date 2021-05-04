@@ -44,13 +44,11 @@ async function insertOne(event){
    // return null;
 }
 
-async function deleteOneByEventName(event_name){
-    const event_delete = await collection().find({eventName:event_name});
-    if(event_delete) {
-        await collection().deleteOne({id: event_name._id});
+async function deleteOneByEventName(id){
+    
+        await collection().findByIdAndDelete(id);
         return true;
-    }
-    return false;
+    
 }
 
 

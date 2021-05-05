@@ -35,7 +35,7 @@ async function getAllEvents(req,res){
 }
 
 async function getEventById(req,res){
-    const event = await events.findOneById(req.query.eventId);
+    const event = await events.findOneById(req.params.id);
     if(event){
         return res.status(200).send(event);
     }
@@ -51,8 +51,8 @@ async function getEventByEventName(req,res){
 }
 
 async function updateEvent(req,res){
-    let event_name = req.query.event_name;
-    const event = await events.updateOne(event_name, req.body);
+    let id = req.params.id;
+    const event = await events.updateOne(id, req.body);
     if(event){
         return res.status(200).send(event);
     }

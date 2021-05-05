@@ -75,9 +75,9 @@ async function findRecentEventsFin(){
     return await collection().find({}).sort({date_fin: -1});
 }
 
-async function updateOne(event_name, updatedFields) {
+async function updateOne(id, updatedFields) {
     const result = await collection().updateOne(
-        { eventName: event_name },
+        { _id: id },
         { $set: updatedFields },
     );
     return result;

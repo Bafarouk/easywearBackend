@@ -1,3 +1,5 @@
-# https://www.robotstxt.org/robotstxt.html
 User-agent: *
-Disallow:
+Disallow: /ADMIN/
+
+
+sitemap: https://secure-ocean-54413.herokuapp.com/sitemap.xml

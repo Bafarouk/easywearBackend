@@ -410,7 +410,7 @@
 .ti-pulse:before {
 	content: "\e680";
 }
-.ti-printer:before {
+.ti-onlineShop:before {
 	content: "\e681";
 }
 .ti-power-off:before {
